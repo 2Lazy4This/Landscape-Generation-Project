@@ -58,14 +58,35 @@ class landscape {
     array[position4] = Math.random() * height;
   }
 
+  // pos1 - - - - posMU - - - - pos2
+  // -                           -
+  // -                           -
+  // -                           -
+  // -                           -
+  // posL - - - - posCent - - - posR
+  // -                           -
+  // -                           -
+  // -                           -
+  // -                           -
+  // pos4 - - - - posMD - - - - pos3
+
   fillArray(pos1, pos2, pos3, pos4) {
-    var newPos = diamondCenter(pos1, pos2, pos3, pos4);
-    if (newPos != -1) {
-      array[newPos] = diamondAverage(array[pos1], array[pos2], array[pos3], array[pos4]);
-      fillArray(pos1, pos2, pos3, newPos); //recursively continues to set values based on centers
-      fillArray(pos1, pos2, newPos, pos4); //stops when no more points are available to fill
-      fillArray(pos1, newPos, pos3, pos4);
-      fillArray(newPos, pos2, pos3, pos4);
+    var posMU = rectCenter(pos1, pos2);
+    var posR = rectCenter(pos2, pos3);
+    var posMD = rectCenter(pos3, pos4);
+    var posL = rectCenter(pos4, pos1);
+    array[posMU] = rectAverage(pos1, pos2);
+    array[posR] = rectAverage(pos2, pos3);
+    array[posMD] = rectAverage(pos3, pos4);
+    array[posL] = rectAverage(pos4, pos1);
+
+    var posCent = diamondCenter(posMU, posR, posL, posMD);
+    if (posCent != -1) {
+      array[posCent] = diamondAverage(array[posMU], array[posR], array[posL], array[posMD]);
+      fillArray(pos1, posMU, posCent, posL); //recursively continues to set values based on centers
+      fillArray(posMU, pos2, posR, posCent); //stops when no more points are available to fill
+      fillArray(posCent, posR, pos3, posMD);
+      fillArray(posL, posCent, posMD, pos4);
     }
   }
 
@@ -74,7 +95,12 @@ class landscape {
     //TODO calculate center point, return -1 if center point is only 1 offset from edges
   }
 
- rectangleAverage(edge1, edge2) { //given two edges, returns the midpoint value +- some random skew
+  rectCenter(pos1, pos2) {
+    return -1;
+    //TODO calculate center point, return -1 if center point is only 1 offset from edges
+  }
+
+ rectAverage(edge1, edge2) { //given two edges, returns the midpoint value +- some random skew
    var average = (edge1 + edge2)/2;
    average = average + (Math.random() * skew) - skew/2;
    return average;
