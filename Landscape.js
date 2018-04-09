@@ -1,8 +1,10 @@
 -not compiler safe atm-
 
 class Landscape {
+
   var size, height, skew, distance;
   var array, colorArray;
+
   constructor(size, height, skew, distance) {
     this.size = size; //size of map in any direction, in vertex points
     this.height = height; //maximum height of things on the map
@@ -112,13 +114,13 @@ class Landscape {
   }
 
  rectAverage(edge1, edge2) { //given two edges, returns the midpoint value +- some random skew
-   var average = (edge1 + edge2)/2;
+   var average = (array[edge1] + array[edge2])/2;
    average = average + (Math.random() * skew) - skew/2;
    return average;
  }
 
   diamondAverage(edge1, edge2, edge3, edge4) { //given four edges, returns the midpoint value +- some random skew
-    var average = (edge1 + edge2 + edge3 + edge4)/4;
+    var average = (array[edge1] + array[edge2] + array[edge3] + arrray[edge4])/4;
     average = average + (Math.random() * skew) - skew/2;
     return average;
   }
