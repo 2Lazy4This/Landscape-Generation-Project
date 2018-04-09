@@ -1,13 +1,13 @@
 -not compiler safe atm-
 
-class landscape {
+class Landscape {
   var size, height, skew, distance;
   var array, colorArray;
   constructor(size, height, skew, distance) {
     this.size = size; //size of map in any direction, in vertex points
     this.height = height; //maximum height of things on the map
     this.skew = skew; //the random value applied to each midpoint - higher values result in rougher terrain
-    this.distance = distance; //how large the squares/triangles of the map average
+    this.distance = distance; //how large the squares/triangles of the map
     //"real" map size is size * distance
   }
 
@@ -71,16 +71,19 @@ class landscape {
   // pos4 - - - - posMD - - - - pos3
 
   fillArray(pos1, pos2, pos3, pos4) {
-    var posMU = rectCenter(pos1, pos2);
+    var posMU = rectCenter(pos1, pos2); //determines center location between two edge positions
     var posR = rectCenter(pos2, pos3);
     var posMD = rectCenter(pos3, pos4);
     var posL = rectCenter(pos4, pos1);
-    array[posMU] = rectAverage(pos1, pos2);
+
+    //TODO ensure not -1 before moving forward. is this even necessary, though? do math.
+
+    array[posMU] = rectAverage(pos1, pos2); //determines average height at that point, plus some noise
     array[posR] = rectAverage(pos2, pos3);
     array[posMD] = rectAverage(pos3, pos4);
     array[posL] = rectAverage(pos4, pos1);
 
-    var posCent = diamondCenter(posMU, posR, posL, posMD);
+    var posCent = diamondCenter(posMU, posR, posL, posMD); //finds centerpoint of four midpoints (diamond)
     if (posCent != -1) {
       array[posCent] = diamondAverage(array[posMU], array[posR], array[posL], array[posMD]);
       fillArray(pos1, posMU, posCent, posL); //recursively continues to set values based on centers
@@ -91,13 +94,21 @@ class landscape {
   }
 
   diamondCenter(pos1, pos2, pos3, pos4) {
-    return -1;
-    //TODO calculate center point, return -1 if center point is only 1 offset from edges
+    var newPos = (pos1 + pos2 + pos3 + pos4)/4;
+    if (Number.isInteger(newPos)) {
+      return newPos;
+    } else {
+      return -1; //if not integer, centerpoint is not a valid position
+    }
   }
 
   rectCenter(pos1, pos2) {
-    return -1;
-    //TODO calculate center point, return -1 if center point is only 1 offset from edges
+    var newPos = (pos1 + pos2)/2;
+    if (Number.isInteger(newPos)) {
+      return newPos;
+    } else {
+      return -1; //if not integer, the points are next to each other, and that area has been filled
+    }
   }
 
  rectAverage(edge1, edge2) { //given two edges, returns the midpoint value +- some random skew
