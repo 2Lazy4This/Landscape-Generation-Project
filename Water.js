@@ -1,9 +1,7 @@
--also not compiler safe atm-
-
 class Water {
 
-  var size, height, skew, distance;
-  var array, colorArray;
+  // var size, height, skew, distance;
+  // var array, colorArray;
 
   constructor(size, height, skew, distance) {
     this.size = size; //size of map in any direction, in vertex points

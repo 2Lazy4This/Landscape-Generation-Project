@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,6 +21,16 @@ function main() {
     skySphere.position.y = 0;
     skySphere.position.z = 0;
     scene.add(skySphere);
+
+    const land = new Landscape(9, 100, 5, 20);
+    land.generate();
+    var array = land.getarray;
+    for(var i = 0; i < 81; i++) {
+      if(i%9 == 0) {
+        console.log("----");
+      }
+      console.log(array[(i * 3) + 2]);
+    }
 
     var render = function () {
         requestAnimationFrame(render);

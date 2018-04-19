@@ -1,15 +1,15 @@
--not compiler safe atm-
-
 class Landscape {
 
-  var size, height, skew, distance;
-  var array, colorArray;
+  // var size, height, skew, distance;
+  // var array, colorArray;
 
   constructor(size, height, skew, distance) {
     this.size = size; //size of map in any direction, in vertex points
     this.height = height; //maximum height of things on the map
     this.skew = skew; //the random value applied to each midpoint - higher values result in rougher terrain
     this.distance = distance; //how large the squares/triangles of the map
+    var array = [];
+    this.array = array;
     //"real" map size is size * distance
   }
 
@@ -39,25 +39,27 @@ class Landscape {
     //position of column m BASE VALUES (a, b, c, etc) will be (size * n * 3) + (m * 3)
     //position of column m SECONDARY VALUES (a1, a2, b1, etc) will be (size * n * 3) + (m * 3) + x, where x is what number of secondary value you want (a1 will be 1, b2 is 2)
 
-    for(i = 0; i < size; i++) { //i value is row
-      for(j = 0; j < size; j++) { //j value is column
-        var pos = (size * i * 3) + (j * 3);
-        array[pos] = j * distance; //x position
-        array[pos + 1] = i * distance; //y position
-        array[pos + 2] = 0; //heightmap/z value not generated yet, so initialized to 0
+    for(var i = 0; i < this.size; i++) { //i value is row
+      for(var j = 0; j < this.size; j++) { //j value is column
+        var pos = (this.size * i * 3) + (j * 3);
+        this.array[pos] = j * this.distance; //x position
+        this.array[pos + 1] = i * this.distance; //y position
+        this.array[pos + 2] = 0; //heightmap/z value not generated yet, so initialized to 0
       }
     }
     //z values in particular will be at (size * i * 3) + (j * 3) + 2 for i, 0 -> size and j, 0 -> size
     //go ahead and generate the array values of the z for the first four corners of the map
-    position1 = 2; //(size * 0 * 3) + (0 * 3) + 2 - top left
-    position2 = ((size - 1) * 3) + 2; //(size * 0 * 3) + ((size -1) * 3) + 2 - top right
-    position3 = (size * (size - 1) * 3) + 2; //(size * (size - 1) * 3) + (0 * 3) + 2 - bottom left
-    position4 = (size * (size - 1) * 3) + ((size - 1) * 3) + 2; //(size * (size - 1) * 3) + ((size - 1) * 3) + 2 - bottom right
+    var position1 = 2; //(size * 0 * 3) + (0 * 3) + 2 - top left
+    var position2 = ((this.size - 1) * 3) + 2; //(size * 0 * 3) + ((size -1) * 3) + 2 - top right
+    var position4 = (this.size * (this.size - 1) * 3) + 2; //(size * (size - 1) * 3) + (0 * 3) + 2 - bottom left
+    var position3 = (this.size * (this.size - 1) * 3) + ((this.size - 1) * 3) + 2; //(size * (size - 1) * 3) + ((size - 1) * 3) + 2 - bottom right
 
-    array[position1] = Math.random() * height; //pick random height values for the starting edges
-    array[position2] = Math.random() * height;
-    array[position3] = Math.random() * height;
-    array[position4] = Math.random() * height;
+    this.array[position1] = Math.random() * this.height; //pick random height values for the starting edges
+    this.array[position2] = Math.random() * this.height;
+    this.array[position3] = Math.random() * this.height;
+    this.array[position4] = Math.random() * this.height;
+
+    this.fillArray(position1, position2, position3, position4);
   }
 
   // pos1 - - - - posMU - - - - pos2
@@ -73,25 +75,30 @@ class Landscape {
   // pos4 - - - - posMD - - - - pos3
 
   fillArray(pos1, pos2, pos3, pos4) {
-    var posMU = rectCenter(pos1, pos2); //determines center location between two edge positions
-    var posR = rectCenter(pos2, pos3);
-    var posMD = rectCenter(pos3, pos4);
-    var posL = rectCenter(pos4, pos1);
+    var posMU = this.rectCenter(pos1, pos2); //determines center location between two edge positions
+    var posR = this.rectCenter(pos2, pos3);
+    var posMD = this.rectCenter(pos3, pos4);
+    var posL = this.rectCenter(pos4, pos1);
+
+    if (posMU == -1 || posR == -1 || posMD == -1 || posL == -1) {
+      console.log("exited");
+      return false;
+    } else { console.log("continued"); }
 
     //TODO ensure not -1 before moving forward. is this even necessary, though? do math.
 
-    array[posMU] = rectAverage(pos1, pos2); //determines average height at that point, plus some noise
-    array[posR] = rectAverage(pos2, pos3);
-    array[posMD] = rectAverage(pos3, pos4);
-    array[posL] = rectAverage(pos4, pos1);
+    this.array[posMU] = this.rectAverage(pos1, pos2); //determines average height at that point, plus some noise
+    this.array[posR] = this.rectAverage(pos2, pos3);
+    this.array[posMD] = this.rectAverage(pos3, pos4);
+    this.array[posL] = this.rectAverage(pos4, pos1);
 
-    var posCent = diamondCenter(posMU, posR, posL, posMD); //finds centerpoint of four midpoints (diamond)
+    var posCent = this.diamondCenter(posMU, posR, posL, posMD); //finds centerpoint of four midpoints (diamond)
     if (posCent != -1) {
-      array[posCent] = diamondAverage(array[posMU], array[posR], array[posL], array[posMD]);
-      fillArray(pos1, posMU, posCent, posL); //recursively continues to set values based on centers
-      fillArray(posMU, pos2, posR, posCent); //stops when no more points are available to fill
-      fillArray(posCent, posR, pos3, posMD);
-      fillArray(posL, posCent, posMD, pos4);
+      this.array[posCent] = this.diamondAverage(posMU, posR, posL, posMD);
+      this.fillArray(pos1, posMU, posCent, posL); //recursively continues to set values based on centers
+      this.fillArray(posMU, pos2, posR, posCent); //stops when no more points are available to fill
+      this.fillArray(posCent, posR, pos3, posMD);
+      this.fillArray(posL, posCent, posMD, pos4);
     }
   }
 
@@ -114,22 +121,22 @@ class Landscape {
   }
 
  rectAverage(edge1, edge2) { //given two edges, returns the midpoint value +- some random skew
-   var average = (array[edge1] + array[edge2])/2;
-   average = average + (Math.random() * skew) - skew/2;
+   var average = (this.array[edge1] + this.array[edge2])/2;
+   average = average + (Math.random() * this.skew) - this.skew/2;
    return average;
  }
 
   diamondAverage(edge1, edge2, edge3, edge4) { //given four edges, returns the midpoint value +- some random skew
-    var average = (array[edge1] + array[edge2] + array[edge3] + arrray[edge4])/4;
-    average = average + (Math.random() * skew) - skew/2;
+    var average = (this.array[edge1] + this.array[edge2] + this.array[edge3] + this.array[edge4])/4;
+    average = average + (Math.random() * this.skew) - this.skew/2;
     return average;
   }
 
-  get array() {
+  get getarray() {
     return this.array;
   }
 
-  get colorArray() {
+  get getcolorArray() {
     return this.colorArray;
   }
 
