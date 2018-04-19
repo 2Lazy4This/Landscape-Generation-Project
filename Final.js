@@ -22,7 +22,7 @@ function main() {
     skySphere.position.z = 0;
     scene.add(skySphere);
 
-    const land = new Landscape(9, 100, 5, 20);
+    var land = new Landscape(9, 100, 5, 20);
     land.generate();
     var array = land.getarray;
     for(var i = 0; i < 81; i++) {
