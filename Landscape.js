@@ -60,7 +60,31 @@ class Landscape {
     this.array[position4] = Math.random() * this.height;
 
     this.fillArray(position1, position2, position3, position4);
+
+    var total = this.size * this.size * 3;
+    var gridVertices = [];
+    for(var i = 0; i < total; i = i + 3) {
+        //console.log(this.array[i] + "," + this.array[i + 1] + "," + this.array[i + 2]);
+        gridVertices.push(new THREE.Vector3(this.array[i], this.array[i + 1], this.array[i + 2]));
+    }
+
+    //console.log(gridVertices);
+
+    var gridTriangles = [];
+    for (var r = 0; r < this.size - 1; r++) {
+        for (var c = 0; c < this.size - 1; c++) {
+            gridTriangles.push(new THREE.Face3(this.map(r, c), this.map(r + 1, c), this.map(r + 1, c + 1)));
+            gridTriangles.push(new THREE.Face3(this.map(r, c), this.map(r + 1, c + 1), this.map(r, c + 1)));
+            //console.log(gridTriangles);
+        }//col
+    }//row
+    this.gridVertices = gridVertices;
+    this.gridTriangles = gridTriangles;
   }
+
+  map(r, c) {
+      return (this.size * r) + c;
+  };
 
   // pos1 - - - - posMU - - - - pos2
   // -                           -
@@ -81,9 +105,8 @@ class Landscape {
     var posL = this.rectCenter(pos4, pos1);
 
     if (posMU == -1 || posR == -1 || posMD == -1 || posL == -1) {
-      console.log("exited");
       return false;
-    } else { console.log("continued"); }
+    }
 
     //TODO ensure not -1 before moving forward. is this even necessary, though? do math.
 
@@ -134,6 +157,14 @@ class Landscape {
 
   get getarray() {
     return this.array;
+  }
+
+  get getVertices() {
+    return this.gridVertices;
+  }
+
+  get getFaces() {
+    return this.gridTriangles;
   }
 
   get getcolorArray() {

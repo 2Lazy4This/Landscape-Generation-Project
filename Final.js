@@ -22,15 +22,60 @@ function main() {
     skySphere.position.z = 0;
     scene.add(skySphere);
 
-    var land = new Landscape(9, 100, 5, 20);
+    var land = new Landscape(9, 1, 0.005, 0.020);
     land.generate();
-    var array = land.getarray;
-    for(var i = 0; i < 81; i++) {
-      if(i%9 == 0) {
-        console.log("----");
-      }
-      console.log(array[(i * 3) + 2]);
-    }
+    var landGeometry = new THREE.Geometry();
+    landGeometry.vertices = land.getVertices;
+    landGeometry.faces = land.getFaces;
+    //console.log(landGeometry.faces);
+    landGeometry.computeFaceNormals();
+
+    var diffuseColor = new THREE.Color(1.0, 0.0, 1.0);
+    var specularColor = new THREE.Color(1.0, 1.0, 1.0);
+    var material = new THREE.Material();
+    material.color = diffuseColor;
+    // var material = new THREE.MeshNormalMaterial({
+    //     color: diffuseColor,
+    //     //specular: specularColor,
+    //     // reflectivity: 0.1,
+    //     // shininess: 1.0,
+    //     //
+    //     // shadowSide: THREE.BackSide
+    // });
+    var mesh = new THREE.Mesh(landGeometry, material);
+    mesh.position.x = 0;
+    mesh.position.y = 0;
+    mesh.position.z = 0;
+    // mesh.castShadow = true;
+    // mesh.receiveShadow = true;
+    console.log(mesh);
+    scene.add(mesh);
+
+// var geometry = new THREE.PlaneGeometry(200,200,32);
+// var material = new THREE.MeshBasicMaterial ({color:0xffff00, side: THREE.DoubleSide});
+// var plane = new THREE.Mesh(geometry,material);
+// scene.add(plane);
+// console.log(plane);
+
+    //camera.position.z = 3;
+
+//
+    scene.add(new THREE.AmbientLight(0x222222));
+    var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(-5, 100, 100).normalize();
+    directionalLight.castShadow = true;
+    scene.add(directionalLight);
+
+
+// GROUND
+    var groundGeo = new THREE.PlaneBufferGeometry(10000, 10000);
+    var groundMat = new THREE.MeshPhongMaterial({color: 0x00ff00});
+
+    var ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -33;
+    scene.add(ground);
+    ground.receiveShadow = true;
 
     var render = function () {
         requestAnimationFrame(render);
