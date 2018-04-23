@@ -26,20 +26,27 @@ function main() {
     scene.add(skySphere);
 
     var paraboloid = generateParaboloid(100, 100);
-    var land = new Landscape(9, 1, 0.005, 0.020);
+
+    var land = new Landscape(65, 0.75, 0.05, 0.080);
     land.generate();
     var pGeometry = new THREE.Geometry();
-    pGeometry.vertices = land.vertices;
-    pGeometry.faces = land.faces;
+    // pGeometry.vertices = paraboloid.vertices;
+    // console.log(paraboloid.vertices);
+    // pGeometry.faces = paraboloid.faces;
+    pGeometry.vertices = land.getVertices;
+    console.log(land.getVertices);
+    pGeometry.faces = land.getFaces;
     pGeometry.computeFaceNormals();
 
-    var diffuseColor = new THREE.Color(1.0, 0.0, 0.0);
+
+
+    var diffuseColor = new THREE.Color(0.6, 0.5, 0.4);
     var specularColor = new THREE.Color(1.0, 1.0, 1.0);
     var material = new THREE.MeshPhongMaterial({
         color: diffuseColor,
         specular: specularColor,
-        reflectivity: 0.1,
-        shininess: 1.0,
+        reflectivity: 0.01,
+        shininess: 0.15,
 
         shadowSide: THREE.BackSide
     });
@@ -48,6 +55,7 @@ function main() {
     mesh.position.x = 0;
     mesh.position.y = 0;
     mesh.position.z = 0;
+    mesh.rotation.x = Math.PI / 1.8;
     // mesh.castShadow = true;
     // mesh.receiveShadow = true;
     scene.add(mesh);

@@ -39,11 +39,13 @@ class Landscape {
     //position of column m BASE VALUES (a, b, c, etc) will be (size * n * 3) + (m * 3)
     //position of column m SECONDARY VALUES (a1, a2, b1, etc) will be (size * n * 3) + (m * 3) + x, where x is what number of secondary value you want (a1 will be 1, b2 is 2)
 
+    var halfdis = (this.distance * this.size)/2;
+
     for(var i = 0; i < this.size; i++) { //i value is row
       for(var j = 0; j < this.size; j++) { //j value is column
         var pos = (this.size * i * 3) + (j * 3);
-        this.array[pos] = j * this.distance; //x position
-        this.array[pos + 1] = i * this.distance; //y position
+        this.array[pos] = j * this.distance - halfdis; //x position
+        this.array[pos + 1] = i * this.distance - halfdis; //y position
         this.array[pos + 2] = 0; //heightmap/z value not generated yet, so initialized to 0
       }
     }

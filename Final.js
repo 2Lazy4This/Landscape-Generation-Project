@@ -27,7 +27,6 @@ function main() {
     var landGeometry = new THREE.Geometry();
     landGeometry.vertices = land.getVertices;
     landGeometry.faces = land.getFaces;
-    //console.log(landGeometry.faces);
     landGeometry.computeFaceNormals();
 
     var diffuseColor = new THREE.Color(1.0, 0.0, 1.0);
