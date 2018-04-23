@@ -157,7 +157,7 @@ class Landscape {
     return average;
   }
 
-  get getarray() {
+  get getArray() {
     return this.array;
   }
 
@@ -169,7 +169,7 @@ class Landscape {
     return this.gridTriangles;
   }
 
-  get getcolorArray() {
+  get getColorArray() {
     return this.colorArray;
   }
 
