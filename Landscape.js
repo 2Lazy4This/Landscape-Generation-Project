@@ -61,7 +61,7 @@ class Landscape {
     this.array[position3] = Math.random() * this.height;
     this.array[position4] = Math.random() * this.height;
 
-    this.fillArray(position1, position2, position3, position4);
+    this.fillArray(position1, position2, position3, position4, 1);
 
     var total = this.size * this.size * 3;
     var gridVertices = [];
@@ -100,7 +100,7 @@ class Landscape {
   // -                           -
   // pos4 - - - - posMD - - - - pos3
 
-  fillArray(pos1, pos2, pos3, pos4) {
+  fillArray(pos1, pos2, pos3, pos4, depth) {
     var posMU = this.rectCenter(pos1, pos2); //determines center location between two edge positions
     var posR = this.rectCenter(pos2, pos3);
     var posMD = this.rectCenter(pos3, pos4);
@@ -112,18 +112,19 @@ class Landscape {
 
     //TODO ensure not -1 before moving forward. is this even necessary, though? do math.
 
-    this.array[posMU] = this.rectAverage(pos1, pos2); //determines average height at that point, plus some noise
-    this.array[posR] = this.rectAverage(pos2, pos3);
-    this.array[posMD] = this.rectAverage(pos3, pos4);
-    this.array[posL] = this.rectAverage(pos4, pos1);
+    this.array[posMU] = this.rectAverage(pos1, pos2, depth); //determines average height at that point, plus some noise
+    this.array[posR] = this.rectAverage(pos2, pos3, depth);
+    this.array[posMD] = this.rectAverage(pos3, pos4, depth);
+    this.array[posL] = this.rectAverage(pos4, pos1, depth);
 
     var posCent = this.diamondCenter(posMU, posR, posL, posMD); //finds centerpoint of four midpoints (diamond)
     if (posCent != -1) {
-      this.array[posCent] = this.diamondAverage(posMU, posR, posL, posMD);
-      this.fillArray(pos1, posMU, posCent, posL); //recursively continues to set values based on centers
-      this.fillArray(posMU, pos2, posR, posCent); //stops when no more points are available to fill
-      this.fillArray(posCent, posR, pos3, posMD);
-      this.fillArray(posL, posCent, posMD, pos4);
+      this.array[posCent] = this.diamondAverage(posMU, posR, posL, posMD, depth);
+      depth = depth + 1;
+      this.fillArray(pos1, posMU, posCent, posL, depth); //recursively continues to set values based on centers
+      this.fillArray(posMU, pos2, posR, posCent, depth); //stops when no more points are available to fill
+      this.fillArray(posCent, posR, pos3, posMD, depth);
+      this.fillArray(posL, posCent, posMD, pos4, depth);
     }
   }
 
@@ -145,15 +146,19 @@ class Landscape {
     }
   }
 
- rectAverage(edge1, edge2) { //given two edges, returns the midpoint value +- some random skew
+ rectAverage(edge1, edge2, depth) { //given two edges, returns the midpoint value +- some random skew
    var average = (this.array[edge1] + this.array[edge2])/2;
-   average = average + (Math.random() * this.skew) - this.skew/2;
+   //var nuskew = this.skew * Math.abs(edge1 - edge2)/(this.size * this.size * 3); Honestly makes really cool "strip mine" effects.
+   var nuskew = this.skew * (1/(depth * depth));
+   average = average + (Math.random() * nuskew) - nuskew/2;
    return average;
  }
 
-  diamondAverage(edge1, edge2, edge3, edge4) { //given four edges, returns the midpoint value +- some random skew
+  diamondAverage(edge1, edge2, edge3, edge4, depth) { //given four edges, returns the midpoint value +- some random skew
     var average = (this.array[edge1] + this.array[edge2] + this.array[edge3] + this.array[edge4])/4;
-    average = average + (Math.random() * this.skew) - this.skew/2;
+    //var nuskew = this.skew * Math.abs(edge1 - edge2)/(this.size * this.size * 3); Honestly makes really cool "strip mine" effects.
+    var nuskew = this.skew * (1/(depth * depth));
+    average = average + (Math.random() * nuskew) - nuskew/2;
     return average;
   }
 

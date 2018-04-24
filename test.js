@@ -13,6 +13,14 @@ function cycle() {
   draw();
 }
 
+function initialize() {
+  land = new Landscape(65, 1, .5, 0.040);
+  sea = new Water(65, 0.1, 0.1, 0.040, Math.PI/2);
+  land.generate();
+  sea.generate();
+  sea.maptoArray();
+}
+
 function draw() {
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(50, 1.0, 0.1, 1000);
@@ -46,8 +54,8 @@ function draw() {
   var landMaterial = new THREE.MeshPhongMaterial({
       color: diffuseColor,
       specular: specularColor,
-      reflectivity: 0.01,
-      shininess: 0.15,
+      reflectivity: 0.001,
+      shininess: 0.0015,
       shadowSide: THREE.BackSide
   });
 
@@ -88,12 +96,4 @@ function draw() {
       renderer.render(scene, camera);
   };
   render();
-}
-
-function initialize() {
-  land = new Landscape(65, 0.75, 0.05, 0.080);
-  sea = new Water(65, 0.1, 0.1, 0.05, Math.PI/2);
-  land.generate();
-  sea.generate();
-  sea.maptoArray();
 }
