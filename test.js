@@ -9,6 +9,9 @@ function main() {
 
 function cycle() {
   sea.cycle(0.1, 0);
+  sea.maptoArray();
+  sea1.maptoArray();
+  sea2.maptoArray();
   console.log("loop");
   draw();
 }
