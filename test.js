@@ -17,12 +17,12 @@ function cycle() {
 }
 
 function initialize() {
-    var lwSize = document.getElementById("lwSize");
-    var mapSize = document.getElementById("mapSize");
-    var landHeight = document.getElementById("landHeight");
-    var waterHeight = document.getElementById("waterHeight");
-    var waterSkew = document.getElementById("waterSkew");
-    var windDir = document.getElementById("windDir");
+    var lwSize = document.getElementById("lwSize").value;
+    var mapSize = document.getElementById("mapSize").value;
+    var landHeight = document.getElementById("landHeight").value;
+    var waterHeight = document.getElementById("waterHeight").value;
+    var waterSkew = document.getElementById("waterSkew").value;
+    var windDir = document.getElementById("windDir").value;
 
     land = new Landscape(129, 2, 0.75, 0.1);
     sea = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
@@ -198,8 +198,20 @@ function draw() {
         seaMesh.geometry.dispose();
         scene.remove(seaMesh);
 
+        seaMesh1.geometry.dispose();
+        scene.remove(seaMesh1);
+
+        seaMesh2.geometry.dispose();
+        scene.remove(seaMesh2);
+
         sea.cycle(0.1, 0);
         sea.maptoArray();
+
+        sea1.cycle(0.1, 0);
+        sea1.maptoArray();
+
+        sea2.cycle(0.1, 0);
+        sea2.maptoArray();
 
         seaGeometry = new THREE.Geometry();
         seaGeometry.vertices = sea.getVertices;
@@ -213,8 +225,37 @@ function draw() {
         seaMesh.rotation.x = Math.PI / 1.8;
         scene.add(seaMesh);
 
+<<<<<<< HEAD
         scene.add(seaMesh1);
         scene.add(seaMesh2);
+=======
+        seaGeometry1 = new THREE.Geometry();
+        seaGeometry1.vertices = sea1.getVertices;
+        seaGeometry1.faces = sea1.getFaces;
+        seaGeometry1.computeFaceNormals();
+
+        seaMesh1 = new THREE.Mesh(seaGeometry1, seaMaterial1);
+        seaMesh1.position.x = 0;
+        seaMesh1.position.y = -0.5;
+        seaMesh1.position.z = 0;
+        seaMesh1.rotation.x = Math.PI / 1.8;
+        scene.add(seaMesh1);
+
+        seaGeometry2 = new THREE.Geometry();
+        seaGeometry2.vertices = sea2.getVertices;
+        seaGeometry2.faces = sea2.getFaces;
+        seaGeometry2.computeFaceNormals();
+
+        seaMesh2 = new THREE.Mesh(seaGeometry, seaMaterial);
+        seaMesh2.position.x = 0;
+        seaMesh2.position.y = -0.5;
+        seaMesh2.position.z = 0;
+        seaMesh2.rotation.x = Math.PI / 1.8;
+        scene.add(seaMesh2);
+
+        //    scene.add(seaMesh1);
+        //    scene.add(seaMesh2);
+>>>>>>> c2cfe0eac08e6d1ccea221e3d07adcf4518d0901
 
         render();
     };
