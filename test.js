@@ -25,20 +25,13 @@ function initialize() {
     var windDir = document.getElementById("windDir").value;
 
     land = new Landscape(129, 2, 0.75, 0.1);
-    sea = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
-    sea1 = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
-    sea2 = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
-    weather = new Weather(0.05);
+    sea = new Water(65, 0.1, 0.1, 0.2, Math.PI / 2);
+    weather = new Weather(0.1);
 
     weather.generate();
     land.generate();
     sea.generate();
     sea.maptoArray();
-    sea1.generate();
-    sea1.maptoArray();
-    sea2.generate();
-    sea2.maptoArray();
-
 }
 
 function draw() {
@@ -51,7 +44,7 @@ function draw() {
     renderer.shadowMap.enabled = true;
 
 
-    var skySphereGeometry = new THREE.SphereGeometry(1000, 20, 20);  //radius, width segments, height segments
+    var skySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
     var skyMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide});
     var skySphere = new THREE.Mesh(skySphereGeometry, skyMaterial);
     skySphere.position.x = 0;
@@ -68,14 +61,6 @@ function draw() {
     seaGeometry.vertices = sea.getVertices;
     seaGeometry.faces = sea.getFaces;
     seaGeometry.computeFaceNormals();
-    var seaGeometry1 = new THREE.Geometry();
-    seaGeometry1.vertices = sea1.getVertices;
-    seaGeometry1.faces = sea1.getFaces;
-    seaGeometry1.computeFaceNormals();
-    var seaGeometry2 = new THREE.Geometry();
-    seaGeometry2.vertices = sea2.getVertices;
-    seaGeometry2.faces = sea2.getFaces;
-    seaGeometry2.computeFaceNormals();
 
     var diffuseColor = new THREE.Color(0.6, 0.5, 0.4);
     var specularColor = new THREE.Color(1.0, 1.0, 1.0);
@@ -98,49 +83,17 @@ function draw() {
         transparent: true,
         opacity: 0.4
     });
-    var seaMaterial1 = new THREE.MeshPhongMaterial({
-        color: diffuseColor,
-        specular: specularColor,
-        reflectivity: 0.01,
-        shininess: 0.15,
-        shadowSide: THREE.BackSide,
-        transparent: true,
-        opacity: 0.7
-    });
-    var seaMaterial2 = new THREE.MeshPhongMaterial({
-        color: diffuseColor,
-        specular: specularColor,
-        reflectivity: 0.01,
-        shininess: 0.15,
-        shadowSide: THREE.BackSide,
-        transparent: true,
-        opacity: 1
-    });
 
     var seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
     seaMesh.position.x = 0;
-    seaMesh.position.y = -0.5;
+    seaMesh.position.y = -1;
     seaMesh.position.z = 0;
     seaMesh.rotation.x = Math.PI / 1.8;
     scene.add(seaMesh);
 
-    var seaMesh1 = new THREE.Mesh(seaGeometry1, seaMaterial1);
-    seaMesh1.position.x = 0;
-    seaMesh1.position.y = -0.55;
-    seaMesh1.position.z = 0;
-    seaMesh1.rotation.x = Math.PI / 1.8;
-    scene.add(seaMesh1);
-
-    var seaMesh2 = new THREE.Mesh(seaGeometry2, seaMaterial2);
-    seaMesh1.position.x = 0;
-    seaMesh1.position.y = -0.6;
-    seaMesh1.position.z = 0;
-    seaMesh1.rotation.x = Math.PI / 1.8;
-    scene.add(seaMesh2);
-
     var landMesh = new THREE.Mesh(landGeometry, landMaterial);
     landMesh.position.x = 0;
-    landMesh.position.y = 0;
+    landMesh.position.y = -0.2;
     landMesh.position.z = 0;
     landMesh.rotation.x = Math.PI / 1.8;
     scene.add(landMesh);
