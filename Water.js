@@ -72,8 +72,6 @@ class Water {
       }
     }
     this.updateWaves();
-    console.log(this.degreeArray[0]);
-    console.log(this.degreeArray[100]);
   }
 
   get getArray() {
