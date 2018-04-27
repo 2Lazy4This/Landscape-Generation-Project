@@ -194,8 +194,20 @@ function draw() {
         seaMesh.geometry.dispose();
         scene.remove(seaMesh);
 
+        seaMesh1.geometry.dispose();
+        scene.remove(seaMesh1);
+
+        seaMesh2.geometry.dispose();
+        scene.remove(seaMesh2);
+
         sea.cycle(0.1, 0);
         sea.maptoArray();
+
+        sea1.cycle(0.1, 0);
+        sea1.maptoArray();
+
+        sea2.cycle(0.1, 0);
+        sea2.maptoArray();
 
         seaGeometry = new THREE.Geometry();
         seaGeometry.vertices = sea.getVertices;
@@ -208,6 +220,30 @@ function draw() {
         seaMesh.position.z = 0;
         seaMesh.rotation.x = Math.PI / 1.8;
         scene.add(seaMesh);
+
+        seaGeometry1 = new THREE.Geometry();
+        seaGeometry1.vertices = sea1.getVertices;
+        seaGeometry1.faces = sea1.getFaces;
+        seaGeometry1.computeFaceNormals();
+
+        seaMesh1 = new THREE.Mesh(seaGeometry1, seaMaterial1);
+        seaMesh1.position.x = 0;
+        seaMesh1.position.y = -0.5;
+        seaMesh1.position.z = 0;
+        seaMesh1.rotation.x = Math.PI / 1.8;
+        scene.add(seaMesh1);
+
+        seaGeometry2 = new THREE.Geometry();
+        seaGeometry2.vertices = sea2.getVertices;
+        seaGeometry2.faces = sea2.getFaces;
+        seaGeometry2.computeFaceNormals();
+
+        seaMesh2 = new THREE.Mesh(seaGeometry, seaMaterial);
+        seaMesh2.position.x = 0;
+        seaMesh2.position.y = -0.5;
+        seaMesh2.position.z = 0;
+        seaMesh2.rotation.x = Math.PI / 1.8;
+        scene.add(seaMesh2);
 
         //    scene.add(seaMesh1);
         //    scene.add(seaMesh2);
