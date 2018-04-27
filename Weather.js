@@ -8,7 +8,7 @@ this.maxClouds = 200;
         this.meshArray = [];
         this.cloudAmount = cloudiness * this.maxClouds;
         this.cloudSize = 0.75;
-        }
+}
 
 generate() {
 for (var i = 0; i < this.cloudAmount; i++) {
@@ -23,7 +23,7 @@ var cloudGeo = new THREE.SphereGeometry(0.25 * this.cloudSize + 0.75 * Math.rand
 //        color: diffuseColor,
 //                specular: specularColor
 //        });
-//        var cloud = new THREE.Mesh(cloudGeo, cloudMat);
+        var cloud = new THREE.Mesh(cloudGeo, cloudMat);
         cloud.position.x = Math.random() * 2 - 1;
         cloud.position.y = 0;
         cloud.position.z = Math.random() * 2 - 1;
@@ -31,7 +31,7 @@ var cloudGeo = new THREE.SphereGeometry(0.25 * this.cloudSize + 0.75 * Math.rand
         cloud.rotation.x = Math.PI * 2;
         cloud.rotation.z = Math.PI;
         this.meshArray.push(cloud);
-        }
+}
 }
 
 cycle(amount, winddir) {
