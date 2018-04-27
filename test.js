@@ -17,12 +17,12 @@ function cycle() {
 }
 
 function initialize() {
-    var lwSize = document.getElementById("lwSize");
-    var mapSize = document.getElementById("mapSize");
-    var landHeight = document.getElementById("landHeight");
-    var waterHeight = document.getElementById("waterHeight");
-    var waterSkew = document.getElementById("waterSkew");
-    var windDir = document.getElementById("windDir");
+    var lwSize = document.getElementById("lwSize").value;
+    var mapSize = document.getElementById("mapSize").value;
+    var landHeight = document.getElementById("landHeight").value;
+    var waterHeight = document.getElementById("waterHeight").value;
+    var waterSkew = document.getElementById("waterSkew").value;
+    var windDir = document.getElementById("windDir").value;
 
     land = new Landscape(129, 2, 0.75, 0.1);
     sea = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
