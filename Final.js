@@ -18,9 +18,9 @@ function cycle() {
 
 function initialize() {
   land = new Landscape(129, 2, 0.75, 0.1);
-  sea = new Water(129, 0.1, 0.1, 0.1, Math.PI/2);
-  sea1 = new Water(129, 0.1, 0.1, 0.1, Math.PI/2);
-  sea2 = new Water(129, 0.1, 0.1, 0.1, Math.PI/2);
+  sea = new Water(129, 0.1, 0.1, 0.1, Math.PI/4);
+  sea1 = new Water(129, 0.1, 0.1, 0.1, Math.PI/4);
+  sea2 = new Water(129, 0.1, 0.1, 0.1, Math.PI/4);
 
   land.generate();
   sea.generate();

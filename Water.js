@@ -45,8 +45,17 @@ class Water {
         var pos = (this.size * i * 3) + (j * 3);
         this.array[pos] = j * this.distance - halfdis; //x position
         this.array[pos + 1] = i * this.distance - halfdis; //y position
-        this.degreeArray[(i * 9) + j] = ((Math.cos(this.winddir) * i) + (Math.sin(this.winddir) * j))*this.skew; //<--- this should produce waves that match the wind direction
-        this.array[pos + 2] = Math.sin(this.degreeArray[i]) * this.height;
+        this.degreeArray[(i * 9) + j] = ((Math.cos(this.winddir) * i * this.skew) + (Math.sin(this.winddir) * j * this.skew)); //<--- this should produce waves that match the wind direction
+      }
+    }
+    this.updateWaves();
+  }
+
+  updateWaves() {
+    for(var i = 0; i < this.size; i++) { //i value is row
+      for(var j = 0; j < this.size; j++) { //j value is column
+        var pos = (this.size * i * 3) + (j * 3);
+        this.array[pos + 2] = Math.sin(this.degreeArray[(i * 9) + j]) * this.height;
       }
     }
   }
@@ -61,8 +70,10 @@ class Water {
       if(this.winddir != winddir) {
         //insert reaction to real-time wind changes here
       }
-      this.array[(i * 3) + 2] = Math.sin(this.degreeArray[i]) * this.height;
     }
+    this.updateWaves();
+    console.log(this.degreeArray[0]);
+    console.log(this.degreeArray[100]);
   }
 
   get getArray() {
