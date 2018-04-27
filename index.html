@@ -18,7 +18,7 @@ and open the template in the editor.
         <!-- <script src="Final.js"></script> -->
         <script src="test.js"></script>
     </head>
-    <body onload="main()">
+    <body>
         <div>
             <h1> Final Project for Nathan Coggins and KateLynn Pullen</h1>
             <figure>
@@ -27,12 +27,30 @@ and open the template in the editor.
                 </canvas>
                 <p><input id="start" type="button" value="Run Program" onclick="main();" /></p>
                 <p>Values:</p>
-                <p>Land/Water Size: <input type="range" min="0" max="100" value="50" class="slider" id="lwSize"></p>
-                <p>Size/Distance Size: <input type="range" min="0" max="100" value="50" class="slider" id="mapSize"></p>
-                <p>landHeight Size: <input type="range" min="0" max="100" value="50" class="slider" id="landHeight"></p>
-                <p>waterHeight Size: <input type="range" min="0" max="100" value="50" class="slider" id="waterHeight"></p>
-                <p>waterSkew Size: <input type="range" min="0" max="100" value="50" class="slider" id="waterSkew"></p>
-                <p>windDir Size: <input type="range" min="0" max="100" value="50" class="slider" id="windDir"></p>
+                <form>
+                    Land/Water Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="lwSize" oninput="this.form.amountInput.value=this.value" /> 100%
+                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
+                </form>
+                <form>
+                    Size/Distance Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="mapSize" oninput="this.form.amountInput.value=this.value" /> 100%
+                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
+                </form>
+                <form>
+                    landHeight Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="landHeight" oninput="this.form.amountInput.value=this.value" /> 100%
+                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
+                </form>
+                <form>
+                    waterHeight Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterHeight" oninput="this.form.amountInput.value=this.value" /> 100%
+                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
+                </form>
+                <form>
+                    waterSkew Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterSkew" oninput="this.form.amountInput.value=this.value" /> 100%
+                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
+                </form>
+                <form>
+                    windDir Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="windDir" oninput="this.form.amountInput.value=this.value" /> 100%
+                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
+                </form>
                 <br>
                 <figcaption><b>Landscape Generation</b><br>
                     <b>Final Project</b> <br>
