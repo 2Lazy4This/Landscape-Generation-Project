@@ -28,7 +28,9 @@ function initialize() {
     sea = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
     sea1 = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
     sea2 = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
+    weather = new Weather(0.1);
 
+    weather.generate();
     land.generate();
     sea.generate();
     sea.maptoArray();
@@ -143,6 +145,8 @@ function draw() {
     landMesh.rotation.x = Math.PI / 1.8;
     scene.add(landMesh);
 
+    scene.add(weather.meshArray[0]);
+
     camera.position.z = 3;
 
     scene.add(new THREE.AmbientLight(0x222222));
@@ -156,7 +160,7 @@ function draw() {
 //    var plantsObjectFacesIndex = 0;
 //    var colorsIndex = 0;
 //
-//    var plantsLength = plants.length; //will be whatever array name is used 
+//    var plantsLength = plants.length; //will be whatever array name is used
 //    var objectsLength = plantObjects.length; //will be whatever array name is used
 //    var facesLength = faces.length; //will be whatever array name is used
 //    var colorsLength = colors.length; //will be whatever array name is used
@@ -209,8 +213,8 @@ function draw() {
         seaMesh.rotation.x = Math.PI / 1.8;
         scene.add(seaMesh);
 
-        //    scene.add(seaMesh1);
-        //    scene.add(seaMesh2);
+        scene.add(seaMesh1);
+        scene.add(seaMesh2);
 
         render();
     };
@@ -218,7 +222,7 @@ function draw() {
     var render = function () {
         requestAnimationFrame(render);
         renderer.render(scene, camera);
-        setTimeout(animate, 1000);
+        setTimeout(animate, 300);
     };
     render();
 }
