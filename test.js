@@ -183,9 +183,40 @@ function draw() {
 //        }
 //    }
 
+//    var animate = function () {
+//        var scene = new THREE.Scene();
+//        requestAnimationFrame(render);
+//
+//        scene.add(skySphere);
+//        sea.cycle(0.1, 0);
+//        sea.maptoArray();
+//
+//        seaGeometry = new THREE.Geometry();
+//        seaGeometry.vertices = sea.getVertices;
+//        seaGeometry.faces = sea.getFaces;
+//        seaGeometry.computeFaceNormals();
+//
+//        seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
+//        seaMesh.position.x = 0;
+//        seaMesh.position.y = -0.5;
+//        seaMesh.position.z = 0;
+//        seaMesh.rotation.x = Math.PI / 1.8;
+//        scene.add(seaMesh);
+//
+////        scene.add(seaMesh1);
+////        scene.add(seaMesh2);
+//        scene.add(landMesh);
+//        scene.add(new THREE.AmbientLight(0x222222));
+//        scene.add(directionalLight);
+//
+//        renderer.render(scene, camera);
+//        setTimeout(animate(), 100);
+//    };
+
     var render = function () {
         requestAnimationFrame(render);
         renderer.render(scene, camera);
+//        setTimeout(animate(), 100);
     };
     render();
 }
