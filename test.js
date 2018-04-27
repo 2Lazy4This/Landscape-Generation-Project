@@ -184,9 +184,9 @@ function draw() {
 //    }
 
     var animate = function () {
-        scene = new THREE.Scene();
+        seaMesh.geometry.dispose();
+        scene.remove(seaMesh);
 
-        scene.add(skySphere);
         sea.cycle(0.1, 0);
         sea.maptoArray();
 
@@ -203,10 +203,7 @@ function draw() {
         scene.add(seaMesh);
 
         //    scene.add(seaMesh1);
-        //       scene.add(seaMesh2);
-        scene.add(landMesh);
-        scene.add(new THREE.AmbientLight(0x222222));
-        scene.add(directionalLight);
+        //    scene.add(seaMesh2);
 
         render();
     };
