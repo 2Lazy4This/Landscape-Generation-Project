@@ -144,6 +144,24 @@ function draw() {
   directionalLight.castShadow = true;
   scene.add(directionalLight);
 
+//    var plantsIndex = 0;
+//    var plantObjectsIndex = 0;
+//    var plantsObjectFacesIndex = 0;
+//    var colorsIndex = 0;
+//
+//    var plantsLength = plants.length; //will be whatever array name is used 
+//    var objectsLength = plantObjects.length; //will be whatever array name is used
+//    var facesLength = faces.length; //will be whatever array name is used
+//    var colorsLength = colors.length; //will be whatever array name is used
+
+//    for (plantsIndex; plantsIndex < plantsLength; plantsIndex++) {
+//        for (plantObjectsIndex; plantObjectsIndex < objectsLength; plantObjectsIndex++) {
+//            for (plantsObjectFacesIndex; plantsObjectFacesIndex < facesLength; plantsObjectFacesIndex++) {
+//                  add face to whatever mesh or geometry best fits the
+//            }
+//        }
+//    }
+
   var render = function () {
       requestAnimationFrame(render);
       renderer.render(scene, camera);
