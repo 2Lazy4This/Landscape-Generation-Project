@@ -17,6 +17,13 @@ function cycle() {
 }
 
 function initialize() {
+    var lwSize = document.getElementById("lwSize");
+    var mapSize = document.getElementById("mapSize");
+    var landHeight = document.getElementById("landHeight");
+    var waterHeight = document.getElementById("waterHeight");
+    var waterSkew = document.getElementById("waterSkew");
+    var windDir = document.getElementById("windDir");
+
     land = new Landscape(129, 2, 0.75, 0.1);
     sea = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
     sea1 = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
