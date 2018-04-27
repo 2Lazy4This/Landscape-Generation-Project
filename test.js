@@ -224,11 +224,7 @@ function draw() {
         seaMesh.position.z = 0;
         seaMesh.rotation.x = Math.PI / 1.8;
         scene.add(seaMesh);
-
-<<<<<<< HEAD
-        scene.add(seaMesh1);
-        scene.add(seaMesh2);
-=======
+        
         seaGeometry1 = new THREE.Geometry();
         seaGeometry1.vertices = sea1.getVertices;
         seaGeometry1.faces = sea1.getFaces;
@@ -252,11 +248,7 @@ function draw() {
         seaMesh2.position.z = 0;
         seaMesh2.rotation.x = Math.PI / 1.8;
         scene.add(seaMesh2);
-
-        //    scene.add(seaMesh1);
-        //    scene.add(seaMesh2);
->>>>>>> c2cfe0eac08e6d1ccea221e3d07adcf4518d0901
-
+        
         render();
     };
 
