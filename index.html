@@ -19,14 +19,15 @@ and open the template in the editor.
         <!-- <script src="Final.js"></script> -->
         <script src="test.js"></script>
     </head>
-    <body>
+    <body onload="main()">
         <div>
             <h1> Final Project for Nathan Coggins and KateLynn Pullen</h1>
             <figure>
                 <canvas id="drawCanvas" width="400" height="400">
                     Please use a browser that supports "canvas"
                 </canvas>
-                <p><input id="start" type="button" value="Run Program" onclick="main();" /></p>
+                <!--                <p><input id="start" type="button" value="Run Program" onclick="doAnimate();" /></p>
+                                <p><input id="start" type="button" value="stop Program" onclick="stopAnimate();" /></p>-->
                 <p>Values:</p>
                 <form>
                     Land/Water Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="lwSize" oninput="this.form.amountInput.value=this.value" /> 100%

@@ -257,7 +257,7 @@ function draw() {
     var render = function () {
         requestAnimationFrame(render);
         renderer.render(scene, camera);
-        setTimeout(animate, 300);
+//        setTimeout(animate, 300);
     };
     render();
 }
