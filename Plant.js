@@ -13,10 +13,12 @@ class Plant {
   rGenerate(locx, locy, locz, depth, xyAngle, zAngle) {
 
     var height = (.75 * height) + (.25 * Math.random() * height) * 1/depth;
-    var bWidth =
-    var tWidth =
+    var bWidth = (.75 * width) + (.25 * Math.random() * width) * 1/depth;
+    var tWidth = (.50 * width) + (.25 * Math.random() * width) * 1/depth;
 
-    objArray.push(new plantObject(colorArray, vertArray, faceArray));
+    vertArray = calculateVerts(height, bWidth, tWidth);
+
+    objArray.push(new plantObject(this.color1, vertArray, faceArray));
     if (depth < pl.maxdepth) {
       var branches = [];
       var leaves = [];
@@ -26,5 +28,14 @@ class Plant {
         rGenerate(branches[i], branches[i+1], branches[i+2], branches[i+3], branches[i+4], depth);
       }
     }
+  }
+
+  calculateVerts(height, bWidth, tWidth) {
+
+
+  }
+
+  map(r, c) {
+    //TODO
   }
 }
