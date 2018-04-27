@@ -7,27 +7,24 @@ class Weather {
     this.positionArray = [];
     this.meshArray = [];
     this.cloudAmount = cloudiness * this.maxClouds;
-    this.cloudSize = 1;
-    //TODO INITIALIZE MATERIALS
+    this.cloudSize = 0.75;
   }
 
   generate() {
     for (var i = 0; i < this.cloudAmount; i++) {
-      var cloudGeo = new THREE.SphereGeometry(0.25 * this.cloudSize + 0.75 * Math.random() * this.cloudSize, 4, 4, 0, Math.PI * 2);
-      var diffuseColor = new THREE.Color(1.0, 1.0, 1.0);
+      var cloudGeo = new THREE.SphereGeometry(0.25 * this.cloudSize + 0.75 * Math.random() * this.cloudSize, 4, 4, Math.PI, Math.PI * 2);
+      var diffuseColor = new THREE.Color(0.9, 0.9, 0.9);
       var specularColor = new THREE.Color(1.0, 1.0, 1.0);
-      var cloudMat = new THREE.MeshStandardMaterial({
+      var cloudMat = new THREE.MeshLambertMaterial({
           color: diffuseColor,
-          specular: specularColor,
-          reflectivity: 0.01,
-          shininess: 0.01
+          specular: specularColor
       });
       var cloud = new THREE.Mesh(cloudGeo, cloudMat);
-      cloud.position.x = 0;
+      cloud.position.x = Math.random() * 2 - 1;
       cloud.position.y = 0;
-      cloud.position.z = 0;
-      cloud.rotation.y = Math.PI;
-      cloud.rotation.x = Math.PI;
+      cloud.position.z = Math.random() * 2 - 1;
+      cloud.rotation.y = Math.PI * 2;
+      cloud.rotation.x = Math.PI * 2;
       cloud.rotation.z = Math.PI;
       this.meshArray.push(cloud);
     }

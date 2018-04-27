@@ -28,7 +28,7 @@ function initialize() {
     sea = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
     sea1 = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
     sea2 = new Water(129, 0.1, 0.1, 0.1, Math.PI / 2);
-    weather = new Weather(0.1);
+    weather = new Weather(0.05);
 
     weather.generate();
     land.generate();
@@ -145,7 +145,9 @@ function draw() {
     landMesh.rotation.x = Math.PI / 1.8;
     scene.add(landMesh);
 
-    scene.add(weather.meshArray[0]);
+    for (var i = 0; i < weather.meshArray.length; i++) {
+        scene.add(weather.meshArray[i]);
+    }
 
     camera.position.z = 3;
 
