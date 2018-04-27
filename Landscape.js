@@ -66,7 +66,6 @@ class Landscape {
     var total = this.size * this.size * 3;
     var gridVertices = [];
     for(var i = 0; i < total; i = i + 3) {
-        //console.log(this.array[i] + "," + this.array[i + 1] + "," + this.array[i + 2]);
         gridVertices.push(new THREE.Vector3(this.array[i], this.array[i + 1], this.array[i + 2]));
     }
 

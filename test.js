@@ -1,5 +1,8 @@
 var land;
 var sea;
+var paused = true;
+var tau = Math.PI * 2;
+var plRotx, plRoty, plRotz;
 
 function main() {
     initialize();
@@ -10,8 +13,6 @@ function main() {
 function cycle() {
     sea.cycle(0.1, 0);
     sea.maptoArray();
-    sea1.maptoArray();
-    sea2.maptoArray();
     console.log("loop");
     draw();
 }
@@ -24,14 +25,18 @@ function initialize() {
     var waterSkew = document.getElementById("waterSkew").value;
     var windDir = document.getElementById("windDir").value;
 
-    land = new Landscape(129, 2, 0.75, 0.1);
-    sea = new Water(65, 0.1, 0.1, 0.2, Math.PI / 2);
+    land = new Landscape(65, 3, 1.25, 0.2);
+    sea = new Water(65, 0.1, 0.01, 0.2, Math.PI / 2);
     weather = new Weather(0.1);
 
     weather.generate();
     land.generate();
     sea.generate();
     sea.maptoArray();
+
+    plRotx = Math.PI/4000 * Math.random() - Math.PI/8000;
+    plRoty = Math.PI/4000 * Math.random() - Math.PI/8000;
+    plRotz = Math.PI/4000 * Math.random() - Math.PI/8000;
 }
 
 function draw() {
@@ -43,9 +48,10 @@ function draw() {
     renderer.setSize(drawCanvas.width, drawCanvas.height);
     renderer.shadowMap.enabled = true;
 
+    var texture = new THREE.TextureLoader().load( "testSky.png" );
 
     var skySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
-    var skyMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide});
+    var skyMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, map: texture});
     var skySphere = new THREE.Mesh(skySphereGeometry, skyMaterial);
     skySphere.position.x = 0;
     skySphere.position.y = 0;
@@ -64,15 +70,14 @@ function draw() {
 
     var diffuseColor = new THREE.Color(0.6, 0.5, 0.4);
     var specularColor = new THREE.Color(1.0, 1.0, 1.0);
-    var landMaterial = new THREE.MeshPhongMaterial({
+    var landMaterial = new THREE.MeshLambertMaterial({
         color: diffuseColor,
         specular: specularColor,
         reflectivity: 0.001,
-        shininess: 0.0015,
         shadowSide: THREE.BackSide
     });
 
-    var diffuseColor = new THREE.Color(0.15, 0.51, 0.8);
+    var diffuseColor = new THREE.Color(0.05, 0.25, 0.5);
     var specularColor = new THREE.Color(1.0, 1.0, 1.0);
     var seaMaterial = new THREE.MeshPhongMaterial({
         color: diffuseColor,
@@ -81,19 +86,19 @@ function draw() {
         shininess: 0.15,
         shadowSide: THREE.BackSide,
         transparent: true,
-        opacity: 0.4
+        opacity: 0.6
     });
 
     var seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
     seaMesh.position.x = 0;
-    seaMesh.position.y = -1;
+    seaMesh.position.y = -2.5
     seaMesh.position.z = 0;
     seaMesh.rotation.x = Math.PI / 1.8;
     scene.add(seaMesh);
 
     var landMesh = new THREE.Mesh(landGeometry, landMaterial);
     landMesh.position.x = 0;
-    landMesh.position.y = -0.2;
+    landMesh.position.y = -1;
     landMesh.position.z = 0;
     landMesh.rotation.x = Math.PI / 1.8;
     scene.add(landMesh);
@@ -149,68 +154,43 @@ function draw() {
 //        }
 //    }
 
-    // var animate = function () {
-    //     seaMesh.geometry.dispose();
-    //     scene.remove(seaMesh);
-    //
-    //     seaMesh1.geometry.dispose();
-    //     scene.remove(seaMesh1);
-    //
-    //     seaMesh2.geometry.dispose();
-    //     scene.remove(seaMesh2);
-    //
-    //     sea.cycle(0.1, 0);
-    //     sea.maptoArray();
-    //
-    //     sea1.cycle(0.1, 0);
-    //     sea1.maptoArray();
-    //
-    //     sea2.cycle(0.1, 0);
-    //     sea2.maptoArray();
-    //
-    //     seaGeometry = new THREE.Geometry();
-    //     seaGeometry.vertices = sea.getVertices;
-    //     seaGeometry.faces = sea.getFaces;
-    //     seaGeometry.computeFaceNormals();
-    //
-    //     seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
-    //     seaMesh.position.x = 0;
-    //     seaMesh.position.y = -0.5;
-    //     seaMesh.position.z = 0;
-    //     seaMesh.rotation.x = Math.PI / 1.8;
-    //     scene.add(seaMesh);
-    //
-    //     seaGeometry1 = new THREE.Geometry();
-    //     seaGeometry1.vertices = sea1.getVertices;
-    //     seaGeometry1.faces = sea1.getFaces;
-    //     seaGeometry1.computeFaceNormals();
-    //
-    //     seaMesh1 = new THREE.Mesh(seaGeometry1, seaMaterial1);
-    //     seaMesh1.position.x = 0;
-    //     seaMesh1.position.y = -0.5;
-    //     seaMesh1.position.z = 0;
-    //     seaMesh1.rotation.x = Math.PI / 1.8;
-    //     scene.add(seaMesh1);
-    //
-    //     seaGeometry2 = new THREE.Geometry();
-    //     seaGeometry2.vertices = sea2.getVertices;
-    //     seaGeometry2.faces = sea2.getFaces;
-    //     seaGeometry2.computeFaceNormals();
-    //
-    //     seaMesh2 = new THREE.Mesh(seaGeometry, seaMaterial);
-    //     seaMesh2.position.x = 0;
-    //     seaMesh2.position.y = -0.5;
-    //     seaMesh2.position.z = 0;
-    //     seaMesh2.rotation.x = Math.PI / 1.8;
-    //     scene.add(seaMesh2);
-    //
-    //     render();
-    // };
+    var animate = function () {
+      console.log(paused);
+      if (!paused) {
+        // seaMesh.geometry.dispose();
+        // scene.remove(seaMesh);
+        // sea.cycle(0.1, 0);
+        // sea.maptoArray();
+        // seaGeometry = new THREE.Geometry();
+        // seaGeometry.vertices = sea.getVertices;
+        // seaGeometry.faces = sea.getFaces;
+        // seaGeometry.computeFaceNormals();
+        // seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
+        // seaMesh.position.x = 0;
+        // seaMesh.position.y = -0.5;
+        // seaMesh.position.z = 0;
+        // seaMesh.rotation.x = Math.PI / 1.8;
+        // scene.add(seaMesh);
+        skySphere.rotation.x += plRotx;
+        skySphere.rotation.y += plRoty;
+        skySphere.rotation.z += plRotz;
+        render();
+      }
+    };
 
     var render = function () {
         requestAnimationFrame(render);
         renderer.render(scene, camera);
-//        setTimeout(animate, 300);
+        setTimeout(animate, 200);
     };
     render();
+}
+
+function switchPause() {
+  paused = !paused;
+  if (paused) {
+    document.getElementById('pauseButton').innerText = "Unpause";
+  } else {
+    document.getElementById('pauseButton').innerText = "Pause";
+  }
 }
