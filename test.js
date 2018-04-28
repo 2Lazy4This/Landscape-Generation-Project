@@ -4,6 +4,7 @@ var textures;
 var paused = true;
 var tau = Math.PI * 2;
 var plRotx, plRoty, plRotz;
+var celestialObj = 2; //between 1 and 3, inclusive
 
 function main() {
     initialize();
@@ -50,13 +51,44 @@ function draw() {
     renderer.setSize(drawCanvas.width, drawCanvas.height);
     renderer.shadowMap.enabled = true;
 
-    var skySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
-    var skyMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, map: textures.generateSky()});
+    var skySphereGeometry = new THREE.SphereGeometry(11, 20, 20);  //radius, width segments, height segments
+    var skyMaterial = new THREE.MeshBasicMaterial({side: THREE.DoubleSide, map: textures.generateSky()});
     var skySphere = new THREE.Mesh(skySphereGeometry, skyMaterial);
     skySphere.position.x = 0;
     skySphere.position.y = 0;
     skySphere.position.z = 0;
     scene.add(skySphere);
+
+    var spriteMaterial = [];
+    var sprite = [];
+    for (var i = 0; i < celestialObj; i++) {
+      spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, Math.random() * 300, Math.random() * 55)});
+      sprite[i] = new THREE.Sprite(spriteMaterial[i]);
+      var theta = Math.random() * tau;
+      sprite[i].position.x = 9 * Math.sin(theta);
+      sprite[i].position.y = 9 * Math.cos(theta);
+      sprite[i].position.z = -9;
+      //might conflict with other z positions
+      //TODO figure out how to map to spherical coordinates because it seems this is not how to do it
+      scene.add(sprite[i]);
+    }
+
+    //turn off for night
+    // var daySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
+    // var dayMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, transparent: true, opacity: 1, depthWrite: false});
+    // var daySphere = new THREE.Mesh(daySphereGeometry, dayMaterial);
+    // skySphere.position.x = 0;
+    // skySphere.position.y = 0;
+    // skySphere.position.z = 0;
+    // scene.add(daySphere);
+    //
+    // var atmoSphereGeometry = new THREE.SphereGeometry(8, 20, 20);  //radius, width segments, height segments
+    // var atmoMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, transparent: true, opacity: 0.7, depthWrite: false});
+    // var atmoSphere = new THREE.Mesh(atmoSphereGeometry, atmoMaterial);
+    // skySphere.position.x = 0;
+    // skySphere.position.y = 0;
+    // skySphere.position.z = 0;
+    // scene.add(atmoSphere);
 
     var landGeometry = new THREE.Geometry();
     landGeometry.vertices = land.getVertices;
@@ -91,16 +123,16 @@ function draw() {
 
     var seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
     seaMesh.position.x = 0;
-    seaMesh.position.y = -2.5
+    seaMesh.position.y = -2.3
     seaMesh.position.z = 0;
-    seaMesh.rotation.x = Math.PI / 1.8;
+    seaMesh.rotation.x = Math.PI / 2;
     scene.add(seaMesh);
 
     var landMesh = new THREE.Mesh(landGeometry, landMaterial);
     landMesh.position.x = 0;
     landMesh.position.y = -1;
     landMesh.position.z = 0;
-    landMesh.rotation.x = Math.PI / 1.8;
+    landMesh.rotation.x = Math.PI / 2;
     scene.add(landMesh);
 
     for (var i = 0; i < weather.meshArray.length; i++) {
