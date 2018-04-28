@@ -4,7 +4,7 @@ var textures;
 var paused = true;
 var tau = Math.PI * 2;
 var plRotx, plRoty, plRotz;
-var celestialObj = 3; //between 1 and 3, inclusive
+var celestialObj = 5; //between 1 and 5, inclusive
 
 function main() {
     initialize();
@@ -44,12 +44,14 @@ function initialize() {
 
 function draw() {
     var scene = new THREE.Scene();
+    var bgscene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(50, 1.0, 0.1, 1000);
 
     //set render to canvas Element
     var renderer = new THREE.WebGLRenderer({canvas: drawCanvas});
     renderer.setSize(drawCanvas.width, drawCanvas.height);
     renderer.shadowMap.enabled = true;
+    renderer.autoClear = false;
 
     var skySphereGeometry = new THREE.SphereGeometry(11, 20, 20);  //radius, width segments, height segments
     var skyMaterial = new THREE.MeshBasicMaterial({side: THREE.DoubleSide, map: textures.generateSky()});
@@ -57,20 +59,7 @@ function draw() {
     skySphere.position.x = 0;
     skySphere.position.y = 0;
     skySphere.position.z = 0;
-    scene.add(skySphere);
-
-    var spriteMaterial = [];
-    var sprite = [];
-    for (var i = 0; i < celestialObj; i++) {
-      spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, Math.random() * 300, Math.random() * 55)});
-      sprite[i] = new THREE.Sprite(spriteMaterial[i]);
-      var theta = Math.random() * tau;
-      sprite[i].position.x = 9 * Math.sin(theta);
-      sprite[i].position.y = 0;
-      sprite[i].position.z = 9 * Math.cos(theta);
-      //TODO figure out how to map to spherical coordinates because it seems this is not how to do it
-      scene.add(sprite[i]);
-    }
+    bgscene.add(skySphere);
 
     //turn off for night
     // var daySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
@@ -79,7 +68,7 @@ function draw() {
     // skySphere.position.x = 0;
     // skySphere.position.y = 0;
     // skySphere.position.z = 0;
-    // scene.add(daySphere);
+    // bgscene.add(daySphere);
     //
     // var atmoSphereGeometry = new THREE.SphereGeometry(8, 20, 20);  //radius, width segments, height segments
     // var atmoMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, transparent: true, opacity: 0.7, depthWrite: false});
@@ -88,6 +77,30 @@ function draw() {
     // skySphere.position.y = 0;
     // skySphere.position.z = 0;
     // scene.add(atmoSphere);
+
+    //generates & adds planets and random rotations for them
+    var sprite = [];
+    var pivot = [];
+    var spriteMaterial = [];
+    var parent = [];
+    var planetMov = [];
+    for (var i = 0; i < celestialObj; i++) {
+      parent[i] = new THREE.Object3D();
+      bgscene.add(parent[i]);
+      pivot[i] = new THREE.Object3D();
+      pivot[i].rotation.z = Math.random() * tau;
+      pivot[i].rotation.y = Math.random() * tau;
+      pivot[i].rotation.x = Math.random() * tau;
+      parent[i].add(pivot[i]);
+      spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, Math.random() * 300, Math.random() * 55)});
+      sprite[i] = new THREE.Sprite(spriteMaterial[i]);
+      sprite[i].position.z = -9;
+      pivot[i].add(sprite[i]);
+      planetMov[i] = {xMov: (Math.PI/4000 * Math.random() - Math.PI/8000 + plRotx),
+                      yMov: (Math.PI/4000 * Math.random() - Math.PI/8000 + plRoty),
+                      zMov: (Math.PI/4000 * Math.random() - Math.PI/8000 + plRotz), };
+    }
+    //end planet gen
 
     var landGeometry = new THREE.Geometry();
     landGeometry.vertices = land.getVertices;
@@ -145,6 +158,12 @@ function draw() {
     directionalLight.position.set(-5, 100, 100).normalize();
     directionalLight.castShadow = true;
     scene.add(directionalLight);
+
+    bgscene.add(new THREE.AmbientLight(0x222222));
+    var bgdirectionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    bgdirectionalLight.position.set(-5, 100, 100).normalize();
+    bgdirectionalLight.castShadow = true;
+    bgscene.add(bgdirectionalLight);
 
 //    var plantsIndex = 0;
 //    var plantObjectsIndex = 0;
@@ -205,12 +224,21 @@ function draw() {
         skySphere.rotation.x += plRotx;
         skySphere.rotation.y += plRoty;
         skySphere.rotation.z += plRotz;
+        for(var i = 0; i < celestialObj; i++) {
+          parent[i].rotation.x += planetMov[i].xMov;
+          parent[i].rotation.y += planetMov[i].yMov;
+          parent[i].rotation.z += planetMov[i].zMov;
+          console.log(planetMov[i].xMov);
+        }
         render();
       }
     };
 
     var render = function () {
+        renderer.clear();
         requestAnimationFrame(render);
+        renderer.render(bgscene, camera);
+        renderer.clearDepth(); // important! clear the depth buffer
         renderer.render(scene, camera);
         setTimeout(animate, 200);
     };
