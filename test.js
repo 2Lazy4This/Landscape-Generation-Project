@@ -4,7 +4,7 @@ var textures;
 var paused = true;
 var tau = Math.PI * 2;
 var plRotx, plRoty, plRotz;
-var celestialObj = 2; //between 1 and 3, inclusive
+var celestialObj = 3; //between 1 and 3, inclusive
 
 function main() {
     initialize();
@@ -66,9 +66,8 @@ function draw() {
       sprite[i] = new THREE.Sprite(spriteMaterial[i]);
       var theta = Math.random() * tau;
       sprite[i].position.x = 9 * Math.sin(theta);
-      sprite[i].position.y = 9 * Math.cos(theta);
-      sprite[i].position.z = -9;
-      //might conflict with other z positions
+      sprite[i].position.y = 0;
+      sprite[i].position.z = 9 * Math.cos(theta);
       //TODO figure out how to map to spherical coordinates because it seems this is not how to do it
       scene.add(sprite[i]);
     }
