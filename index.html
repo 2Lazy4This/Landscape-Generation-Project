@@ -9,19 +9,20 @@ and open the template in the editor.
 
 <html>
     <head>
-        <title>Final Project</title>
+        <title>Alien Worlds Generator</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="http://arden.cs.unca.edu/~cameron/CSCI346/Spring2018/three.js-master/build/three.js"></script>
         <script src="Landscape.js"></script>
         <script src="Water.js"></script>
         <script src="Weather.js"></script>
+        <script src="GenTextures.js"></script>
         <!-- <script src="Final.js"></script> -->
         <script src="test.js"></script>
     </head>
     <body onload="main()">
         <div>
-            <h1> Final Project for Nathan Coggins and KateLynn Pullen</h1>
+            <h1>Alien Worlds Generator</h1>
             <figure>
                 <canvas id="drawCanvas" width="400" height="400">
                     Please use a browser that supports "canvas"
@@ -55,11 +56,15 @@ and open the template in the editor.
                     <input type="number" name="amountInput" min="0" max="360" value="180" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <br>
-                <figcaption><b>Landscape Generation</b><br>
-                    <b>Final Project</b> <br>
-                    <b>Team:</b>  Nathan Coggins and KateLynn Pullen <a href="mailto:ncoggins@unca.edu" target="_top">ncoggins@unca.edu</a> <br>
+                <figcaption>
+                    <b>CSCI #### Final Project</b> <br>
+                    <b>Team:</b><br />Nathan Coggins <a href="mailto:ncoggins@unca.edu" target="_top">ncoggins@unca.edu</a><br />KateLynn Pullen <a href="mailto:kpullen@unca.edu" target="_top">kpullen@unca.edu</a> <br>
                     <b>Date:</b> April 13, 2018 <br>
                 </figcaption>
+                <canvas id="skyTextureCanvas" width="1024" height="1024"><br />
+                <canvas id="planetTexture1Canvas" width="256" height="256">
+                <canvas id="planetTexture2Canvas" width="256" height="256">
+                <canvas id="planetTexture3Canvas" width="256" height="256">
             </figure>
         </div>
     </body>

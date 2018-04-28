@@ -1,5 +1,6 @@
 var land;
 var sea;
+var textures;
 var paused = true;
 var tau = Math.PI * 2;
 var plRotx, plRoty, plRotz;
@@ -28,6 +29,7 @@ function initialize() {
     land = new Landscape(65, 3, 1.25, 0.2);
     sea = new Water(65, 0.1, 0.01, 0.2, Math.PI / 2);
     weather = new Weather(0.1);
+    textures = new GenTextures();
 
     weather.generate();
     land.generate();
@@ -48,10 +50,8 @@ function draw() {
     renderer.setSize(drawCanvas.width, drawCanvas.height);
     renderer.shadowMap.enabled = true;
 
-    var texture = new THREE.TextureLoader().load( "testSky.png" );
-
     var skySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
-    var skyMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, map: texture});
+    var skyMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, map: textures.generateSky()});
     var skySphere = new THREE.Mesh(skySphereGeometry, skyMaterial);
     skySphere.position.x = 0;
     skySphere.position.y = 0;
