@@ -1,0 +1,44 @@
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+
+    width: 50%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: blue; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+body {
+    background-color: grey;
+}
+
+form{   
+    height: 45px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    background-color: green;
+    border-style: solid;
+    width: 750px;
+}
+
+#drawCanvas {
+    display: inline;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    float: left;
+}
+
+#pauseButton{
+    display: block;
+    width: 400px;
+    display: inline-block;
+    background-color: green;
+}

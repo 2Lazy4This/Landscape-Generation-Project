@@ -9,6 +9,8 @@ and open the template in the editor.
 
 <html>
     <head>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+
         <title>Alien Worlds Generator</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,50 +26,60 @@ and open the template in the editor.
         <div>
             <h1>Alien Worlds Generator</h1>
             <figure>
+
+                <!--                <p><input id="start" type="button" value="Run Program" onclick="doAnimate();" /></p>
+                                <p><input id="start" type="button" value="stop Program" onclick="stopAnimate();" /></p>-->
+
+                <!--                <p>Values:</p>-->
                 <canvas id="drawCanvas" width="400" height="400">
                     Please use a browser that supports "canvas"
                 </canvas>
-                <!--                <p><input id="start" type="button" value="Run Program" onclick="doAnimate();" /></p>
-                                <p><input id="start" type="button" value="stop Program" onclick="stopAnimate();" /></p>-->
-                <p><button id="pauseButton" onclick="switchPause()">Unpause</button></p>
-                <p>Values:</p>
                 <form>
                     Land/Water Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="lwSize" oninput="this.form.amountInput.value=this.value" /> 100%
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
+                <br>
                 <form>
                     Size/Distance Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="mapSize" oninput="this.form.amountInput.value=this.value" /> 100%
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
+                <br>
                 <form>
                     landHeight Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="landHeight" oninput="this.form.amountInput.value=this.value" /> 100%
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
+                <br>
                 <form>
                     waterHeight Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterHeight" oninput="this.form.amountInput.value=this.value" /> 100%
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
+                <br>
                 <form>
                     waterSkew Size: 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterSkew" oninput="this.form.amountInput.value=this.value" /> 100%
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />degrees
                 </form>
+                <br>
                 <form>
                     windDir 0 degrees <input type="range" name="amountRange" min="0" max="360" value="180" class="slider" id="windDir" oninput="this.form.amountInput.value=this.value" /> 360 degrees
                     <input type="number" name="amountInput" min="0" max="360" value="180" oninput="this.form.amountRange.value=this.value" />%
                 </form>
+                <br>
+
+                <p><button id="pauseButton" onclick="switchPause()">Unpause</button></p>
                 <br>
                 <figcaption>
                     <b>CSCI #### Final Project</b> <br>
                     <b>Team:</b><br />Nathan Coggins <a href="mailto:ncoggins@unca.edu" target="_top">ncoggins@unca.edu</a><br />KateLynn Pullen <a href="mailto:kpullen@unca.edu" target="_top">kpullen@unca.edu</a> <br>
                     <b>Date:</b> April 13, 2018 <br>
                 </figcaption>
-                <canvas id="planetTexture1Canvas" width="512" height="512">
-                <canvas id="planetTexture2Canvas" width="512" height="512">
-                <canvas id="planetTexture3Canvas" width="512" height="512">
-                <canvas id="planetTexture4Canvas" width="512" height="512">
-                <canvas id="planetTexture5Canvas" width="512" height="512"><br />
-                <canvas id="skyTextureCanvas" width="1024" height="1024">
+
             </figure>
+            <canvas id="planetTexture1Canvas" width="512" height="512"> </canvas>
+            <canvas id="planetTexture2Canvas" width="512" height="512"> </canvas>
+            <canvas id="planetTexture3Canvas" width="512" height="512"> </canvas>
+            <canvas id="planetTexture4Canvas" width="512" height="512"> </canvas>
+            <canvas id="planetTexture5Canvas" width="512" height="512"></canvas>
+            <canvas id="skyTextureCanvas" width="1024" height="1024"></canvas>
         </div>
     </body>
 </html>
