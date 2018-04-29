@@ -104,7 +104,7 @@ function draw() {
             zMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotz),
             xRot: (tempx),
             yRot: (tempy),
-            zRot: (tempz) };
+            zRot: (tempz)};
     }
     //end planet gen
 
@@ -141,7 +141,7 @@ function draw() {
 
     var seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
     seaMesh.position.x = 0;
-    seaMesh.position.y = -2.3
+    seaMesh.position.y = -2.3;
     seaMesh.position.z = 0;
     seaMesh.rotation.x = Math.PI / 2;
     scene.add(seaMesh);
@@ -233,6 +233,10 @@ function draw() {
             skySphere.rotation.z += plRotz;
             for (var i = 0; i < celestialObj; i++) {
                 //parent[i].rotation.dispose();
+                pivot[i].dispose();
+                parent[i].dispose;
+                bgscene.remove(parent[i]);
+                
                 planetMov[i].xRot += planetMov[i].xMov;
                 planetMov[i].yRot += planetMov[i].yMov;
                 planetMov[i].zRot += planetMov[i].zMov;
