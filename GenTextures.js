@@ -28,6 +28,9 @@ class GenTextures {
     }
     var tex = new THREE.Texture(skyTextureCanvas);
 		tex.needsUpdate = true;
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set( 4, 2 );
     return tex;
   }
 
