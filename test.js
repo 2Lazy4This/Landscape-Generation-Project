@@ -88,9 +88,12 @@ function draw() {
         parent[i] = new THREE.Object3D();
         bgscene.add(parent[i]);
         pivot[i] = new THREE.Object3D();
-        pivot[i].rotation.z = Math.random() * tau;
-        pivot[i].rotation.y = Math.random() * tau;
-        pivot[i].rotation.x = Math.random() * tau;
+        var tempx = Math.random() * tau;
+        var tempy = Math.random() * tau;
+        var tempz = Math.random() * tau;
+        pivot[i].rotation.z = tempx;
+        pivot[i].rotation.y = tempy;
+        pivot[i].rotation.x = tempz;
         parent[i].add(pivot[i]);
         spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, Math.random() * 300, Math.random() * 55)});
         sprite[i] = new THREE.Sprite(spriteMaterial[i]);
@@ -98,7 +101,10 @@ function draw() {
         pivot[i].add(sprite[i]);
         planetMov[i] = {xMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotx),
             yMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRoty),
-            zMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotz), };
+            zMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotz),
+            xRot: (tempx),
+            yRot: (tempy),
+            zRot: (tempz) };
     }
     //end planet gen
 
@@ -226,11 +232,19 @@ function draw() {
             skySphere.rotation.y += plRoty;
             skySphere.rotation.z += plRotz;
             for (var i = 0; i < celestialObj; i++) {
-                parent[i].rotation.dispose();
-                parent[i].rotation.x += planetMov[i].xMov;
-                parent[i].rotation.y += planetMov[i].yMov;
-                parent[i].rotation.z += planetMov[i].zMov;
-                console.log(planetMov[i].xMov);
+                //parent[i].rotation.dispose();
+                planetMov[i].xRot += planetMov[i].xMov;
+                planetMov[i].yRot += planetMov[i].yMov;
+                planetMov[i].zRot += planetMov[i].zMov;
+                parent[i] = new THREE.Object3D();
+                bgscene.add(parent[i]);
+                pivot[i] = new THREE.Object3D();
+                pivot[i].rotation.z = planetMov[i].xRot;
+                pivot[i].rotation.y = planetMov[i].yRot;
+                pivot[i].rotation.x = planetMov[i].zRot;
+                parent[i].add(pivot[i]);
+                pivot[i].add(sprite[i]);
+                //console.log(planetMov[i].xMov);
             }
             render();
         }
