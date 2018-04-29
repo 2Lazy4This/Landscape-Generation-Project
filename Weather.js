@@ -13,7 +13,7 @@ constructor(cloudiness) {
 generate() {
 for (var i = 0; i < this.cloudAmount; i++) {
 var cloudGeo = new THREE.SphereGeometry(0.25 * this.cloudSize + 0.75 * Math.random() * this.cloudSize, Math.floor(Math.random() * 3 + 3), Math.floor(Math.random() * 3 + 3), Math.PI, Math.PI * 2);
-        var cloudMat = new THREE.MeshPhongMaterial({
+        var cloudMat = new THREE.MeshToonMaterial({
                 color: new THREE.Color(0.9, 0.9, 0.9),
                 specular: new THREE.Color(1, 1, 1),
                 transparent: true,
