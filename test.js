@@ -37,9 +37,9 @@ function initialize() {
     sea.generate();
     sea.maptoArray();
 
-    plRotx = Math.PI/4000 * Math.random() - Math.PI/8000;
-    plRoty = Math.PI/4000 * Math.random() - Math.PI/8000;
-    plRotz = Math.PI/4000 * Math.random() - Math.PI/8000;
+    plRotx = Math.PI / 4000 * Math.random() - Math.PI / 8000;
+    plRoty = Math.PI / 4000 * Math.random() - Math.PI / 8000;
+    plRotz = Math.PI / 4000 * Math.random() - Math.PI / 8000;
 }
 
 function draw() {
@@ -85,20 +85,20 @@ function draw() {
     var parent = [];
     var planetMov = [];
     for (var i = 0; i < celestialObj; i++) {
-      parent[i] = new THREE.Object3D();
-      bgscene.add(parent[i]);
-      pivot[i] = new THREE.Object3D();
-      pivot[i].rotation.z = Math.random() * tau;
-      pivot[i].rotation.y = Math.random() * tau;
-      pivot[i].rotation.x = Math.random() * tau;
-      parent[i].add(pivot[i]);
-      spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, Math.random() * 300, Math.random() * 55)});
-      sprite[i] = new THREE.Sprite(spriteMaterial[i]);
-      sprite[i].position.z = -9;
-      pivot[i].add(sprite[i]);
-      planetMov[i] = {xMov: (Math.PI/4000 * Math.random() - Math.PI/8000 + plRotx),
-                      yMov: (Math.PI/4000 * Math.random() - Math.PI/8000 + plRoty),
-                      zMov: (Math.PI/4000 * Math.random() - Math.PI/8000 + plRotz), };
+        parent[i] = new THREE.Object3D();
+        bgscene.add(parent[i]);
+        pivot[i] = new THREE.Object3D();
+        pivot[i].rotation.z = Math.random() * tau;
+        pivot[i].rotation.y = Math.random() * tau;
+        pivot[i].rotation.x = Math.random() * tau;
+        parent[i].add(pivot[i]);
+        spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, Math.random() * 300, Math.random() * 55)});
+        sprite[i] = new THREE.Sprite(spriteMaterial[i]);
+        sprite[i].position.z = -9;
+        pivot[i].add(sprite[i]);
+        planetMov[i] = {xMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotx),
+            yMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRoty),
+            zMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotz), };
     }
     //end planet gen
 
@@ -205,33 +205,35 @@ function draw() {
 //    }
 
     var animate = function () {
-      console.log(paused);
-      if (!paused) {
-        // seaMesh.geometry.dispose();
-        // scene.remove(seaMesh);
-        // sea.cycle(0.1, 0);
-        // sea.maptoArray();
-        // seaGeometry = new THREE.Geometry();
-        // seaGeometry.vertices = sea.getVertices;
-        // seaGeometry.faces = sea.getFaces;
-        // seaGeometry.computeFaceNormals();
-        // seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
-        // seaMesh.position.x = 0;
-        // seaMesh.position.y = -0.5;
-        // seaMesh.position.z = 0;
-        // seaMesh.rotation.x = Math.PI / 1.8;
-        // scene.add(seaMesh);
-        skySphere.rotation.x += plRotx;
-        skySphere.rotation.y += plRoty;
-        skySphere.rotation.z += plRotz;
-        for(var i = 0; i < celestialObj; i++) {
-          parent[i].rotation.x += planetMov[i].xMov;
-          parent[i].rotation.y += planetMov[i].yMov;
-          parent[i].rotation.z += planetMov[i].zMov;
-          console.log(planetMov[i].xMov);
+        console.log(paused);
+        if (!paused) {
+            // seaMesh.geometry.dispose();
+            // scene.remove(seaMesh);
+            // sea.cycle(0.1, 0);
+            // sea.maptoArray();
+            // seaGeometry = new THREE.Geometry();
+            // seaGeometry.vertices = sea.getVertices;
+            // seaGeometry.faces = sea.getFaces;
+            // seaGeometry.computeFaceNormals();
+            // seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
+            // seaMesh.position.x = 0;
+            // seaMesh.position.y = -0.5;
+            // seaMesh.position.z = 0;
+            // seaMesh.rotation.x = Math.PI / 1.8;
+            // scene.add(seaMesh);
+
+            skySphere.rotation.x += plRotx;
+            skySphere.rotation.y += plRoty;
+            skySphere.rotation.z += plRotz;
+            for (var i = 0; i < celestialObj; i++) {
+                parent[i].rotation.dispose();
+                parent[i].rotation.x += planetMov[i].xMov;
+                parent[i].rotation.y += planetMov[i].yMov;
+                parent[i].rotation.z += planetMov[i].zMov;
+                console.log(planetMov[i].xMov);
+            }
+            render();
         }
-        render();
-      }
     };
 
     var render = function () {
@@ -246,10 +248,10 @@ function draw() {
 }
 
 function switchPause() {
-  paused = !paused;
-  if (paused) {
-    document.getElementById('pauseButton').innerText = "Unpause";
-  } else {
-    document.getElementById('pauseButton').innerText = "Pause";
-  }
+    paused = !paused;
+    if (paused) {
+        document.getElementById('pauseButton').innerText = "Unpause";
+    } else {
+        document.getElementById('pauseButton').innerText = "Pause";
+    }
 }
