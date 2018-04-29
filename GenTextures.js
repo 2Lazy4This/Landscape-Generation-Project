@@ -10,11 +10,11 @@ class GenTextures {
     this.planetTextureCanvas[3] = document.getElementById('planetTexture4Canvas');
     this.planetTextureCanvas[4] = document.getElementById('planetTexture5Canvas');
     this.skyContext = skyTextureCanvas.getContext('2d');
-    this.planetContext[0] = planetTexture1Canvas.getContext('2d');
-    this.planetContext[1] = planetTexture2Canvas.getContext('2d');
-    this.planetContext[2] = planetTexture3Canvas.getContext('2d');
-    this.planetContext[3] = planetTexture3Canvas.getContext('2d');
-    this.planetContext[4] = planetTexture3Canvas.getContext('2d');
+    this.planetContext[0] = this.planetTextureCanvas[0].getContext('2d');
+    this.planetContext[1] = this.planetTextureCanvas[1].getContext('2d');
+    this.planetContext[2] = this.planetTextureCanvas[2].getContext('2d');
+    this.planetContext[3] = this.planetTextureCanvas[3].getContext('2d');
+    this.planetContext[4] = this.planetTextureCanvas[4].getContext('2d');
   }
 
   generateSky() {
