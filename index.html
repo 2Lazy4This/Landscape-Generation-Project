@@ -31,37 +31,36 @@ and open the template in the editor.
                                 <p><input id="start" type="button" value="stop Program" onclick="stopAnimate();" /></p>-->
 
                 <!--                <p>Values:</p>-->
-                <canvas id="drawCanvas" width="1000" height="1000">
+                <canvas id="drawCanvas" width="700" height="700">
                     Please use a browser that supports "canvas"
                 </canvas>
-                <p><button id="pauseButton" onclick="switchPause()">Unpause</button></p>
+                <p><button id="pauseButton" onclick="switchPause()">Unpause</button> <button id="rerun" onclick="reload()">Regenerate</button></p>
                 <br>
-                <h2> Changeable Scene Values </h2>
+                <h2> Scene Values </h2>
                 <form>
-                    Land/Water Size: <center> 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="lwSize" oninput="this.form.amountInput.value=this.value" /> 100% </center>
+                    Landscape Resolution <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="lwSize" oninput="this.form.amountInput.value=this.value" /> 100% </center>
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
-                    Size/Distance Size: <center> 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="mapSize" oninput="this.form.amountInput.value=this.value" /> 100% </center>
+                    TODO <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="mapSize" oninput="this.form.amountInput.value=this.value" /> 100% </center>
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
-                    landHeight Size: <center> 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="landHeight" oninput="this.form.amountInput.value=this.value" /> 100% </center>
+                    Landscape Height <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="landHeight" oninput="this.form.amountInput.value=this.value" /> 100% </center>
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
-                    waterHeight Size: <center> 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterHeight" oninput="this.form.amountInput.value=this.value" /> 100% </center>
+                    Wave Height <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterHeight" oninput="this.form.amountInput.value=this.value" /> 100% </center>
                     <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
-                    waterSkew Size: <center> 0% <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterSkew" oninput="this.form.amountInput.value=this.value" /> 100% </center>
-                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />degrees
+                    Cloudiness <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterSkew" oninput="this.form.amountInput.value=this.value" /> 100% </center>
+                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
-                    windDir <center> 0 degrees <input type="range" name="amountRange" min="0" max="360" value="180" class="slider" id="windDir" oninput="this.form.amountInput.value=this.value" /> 360 degrees </center>
-                    <input type="number" name="amountInput" min="0" max="360" value="180" oninput="this.form.amountRange.value=this.value" />%
+                    Wind Direction <center> 0 <input type="range" name="amountRange" min="0" max="360" value="180" class="slider" id="windDir" oninput="this.form.amountInput.value=this.value" /> 360° </center>
+                    <input type="number" name="amountInput" min="0" max="360" value="180" oninput="this.form.amountRange.value=this.value" />°
                 </form>
-                <p><button id="rerun" onclick="main()">Rerun</button></p>
                 <br>
                 <figcaption>
                     <b>CSCI #### Final Project</b> <br>

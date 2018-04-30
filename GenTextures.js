@@ -23,8 +23,8 @@ class GenTextures {
     var starDensity = 4000;
     for (var i = 0; i < starDensity; i++) {
       this.skyContext.fillStyle = "hsla(" + (Math.random() * 180) + ", 25%, 50%, 1.0)";
-      var pixelSize = Math.random() * 1.5;
-      this.skyContext.fillRect(Math.floor(Math.random() * 1026 - 1), Math.floor(Math.random() * 1026 - 1), pixelSize, pixelSize * 2);
+      var pixelSize = Math.random() * 2;
+      this.skyContext.fillRect(Math.floor(Math.random() * 1026 - 1), Math.floor(Math.random() * 1026 - 1), pixelSize, pixelSize);
     }
     var tex = new THREE.Texture(skyTextureCanvas);
 		tex.needsUpdate = true;
@@ -35,6 +35,8 @@ class GenTextures {
   }
 
   generatePlanet(number, startColor, saturation) {
+    this.planetContext[number].clearRect(0,0,this.planetTextureCanvas[number].width,this.planetTextureCanvas[number].height);
+
     var centerX = this.planetTextureCanvas[number].width/2;
     var centerY = this.planetTextureCanvas[number].height/2;
     var temp = this.planetTextureCanvas[number].width/4 - 5;

@@ -5,11 +5,23 @@ var paused = true;
 var tau = Math.PI * 2;
 var plRotx, plRoty, plRotz;
 var celestialObj = 5; //between 1 and 5, inclusive
+var renderer;
+
 
 function main() {
-    initialize();
-    draw();
-    //setInterval(cycle, 100);
+  //set render to canvas Element
+  renderer = new THREE.WebGLRenderer({canvas: drawCanvas});
+  renderer.setSize(drawCanvas.width, drawCanvas.height);
+  renderer.shadowMap.enabled = true;
+  renderer.autoClear = false;
+  initialize();
+  draw();
+  //setInterval(cycle, 100);
+}
+
+function reload() {
+  initialize();
+  draw();
 }
 
 function cycle() {
@@ -43,15 +55,10 @@ function initialize() {
 }
 
 function draw() {
+
     var scene = new THREE.Scene();
     var bgscene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(50, 1.0, 0.1, 1000);
-
-    //set render to canvas Element
-    var renderer = new THREE.WebGLRenderer({canvas: drawCanvas});
-    renderer.setSize(drawCanvas.width, drawCanvas.height);
-    renderer.shadowMap.enabled = true;
-    renderer.autoClear = false;
 
     var skySphereGeometry = new THREE.SphereGeometry(11, 20, 20);  //radius, width segments, height segments
     var skyMaterial = new THREE.MeshBasicMaterial({side: THREE.DoubleSide, map: textures.generateSky()});
@@ -236,7 +243,7 @@ function draw() {
                 pivot[i].dispose();
                 parent[i].dispose;
                 bgscene.remove(parent[i]);
-                
+
                 planetMov[i].xRot += planetMov[i].xMov;
                 planetMov[i].yRot += planetMov[i].yMov;
                 planetMov[i].zRot += planetMov[i].zMov;
@@ -262,6 +269,7 @@ function draw() {
         renderer.render(scene, camera);
         setTimeout(animate, 200);
     };
+
     render();
 }
 
