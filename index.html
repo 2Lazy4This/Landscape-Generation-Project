@@ -35,39 +35,41 @@ and open the template in the editor.
                     Please use a browser that supports "canvas"
                 </canvas>
                 <br>
-            <div id="options">
-              <div id="sliders">
-                <form>
-                    Landscape Roughness <center><input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="mapSize"/></center>
-                </form>
-                <form>
-                    Time <center><input type="range" name="amountRange" min="0" max="100" value="1" class="slider" id="landHeight"/></center>
-                </form>
-                <form>
-                    Cloudiness <center><input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterSkew"/></center>
-                </form>
-                <form>
-                    Atmosphere Hue <center><input type="range" name="amountRange" min="0" max="360" value="180" class="slider" id="windDir"/></center>
-                </form>
-              </div>
-              <p><div id="buttons"><button id="pauseButton" onclick="switchPause()">Unpause</button> <button id="rerun" onclick="randomize()">Randomize</button></p></div>
-            </div>
-              <br />
+                <div id="options">
+                    <div id="sliders">
+                        <form>
+                            Landscape Roughness <center><input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="mapSize"/></center>
+                        </form>
+                        <form>
+                            Time <center><input type="range" name="amountRange" min="0" max="100" value="1" class="slider" id="landHeight"/></center>
+                        </form>
+                        <form>
+                            Cloudiness <center><input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterSkew"/></center>
+                        </form>
+                        <form>
+                            Atmosphere Hue <center><input type="range" name="amountRange" min="0" max="360" value="180" class="slider" id="windDir"/></center>
+                        </form>
+                    </div>
+                    <div id="buttons"><button id="pauseButton" onclick="switchPause()">Unpause</button> <button id="rerun" onclick="randomize()">Randomize</button></div>
+                </div>
+                <br />
             </figure>
-          </div>
-          <h2> Textures Generated </h2>
-          <div class="wrapper">
-            <canvas id="skyTextureCanvas" width="1024" height="1024"></canvas>
-            <canvas id="planetTexture1Canvas" class="planet" width="512" height="512"> </canvas>
-            <canvas id="planetTexture2Canvas" class="planet" width="512" height="512"> </canvas>
-            <canvas id="planetTexture3Canvas" class="planet" width="512" height="512"> </canvas>
-            <canvas id="planetTexture4Canvas" class="planet" width="512" height="512"> </canvas>
-            <canvas id="planetTexture5Canvas" class="planet" width="512" height="512"> </canvas>
-          </div>
-          <figcaption id="credits">
-              <b>CSCI 346 Final Project</b> <br>
-              <b>Team:</b><br />Nathan Coggins <a href="mailto:ncoggins@unca.edu" target="_top">ncoggins@unca.edu</a><br />KateLynn Pullen <a href="mailto:kpullen@unca.edu" target="_top">kpullen@unca.edu</a> <br>
-              <b>Date:</b> April 13, 2018 <br>
-          </figcaption>
+        </div>
+        <h2> Textures Generated </h2>
+        <figure>
+            <div class="wrapper">
+                <canvas id="skyTextureCanvas" width="1024" height="1024"></canvas>
+                <canvas id="planetTexture1Canvas" class="planet" width="512" height="512"> </canvas>
+                <canvas id="planetTexture2Canvas" class="planet" width="512" height="512"> </canvas>
+                <canvas id="planetTexture3Canvas" class="planet" width="512" height="512"> </canvas>
+                <canvas id="planetTexture4Canvas" class="planet" width="512" height="512"> </canvas>
+                <canvas id="planetTexture5Canvas" class="planet" width="512" height="512"> </canvas>
+            </div>
+            <figcaption id="credits">
+                <b>CSCI 346 Final Project</b> <br>
+                <b>Team:</b><br />Nathan Coggins <a href="mailto:ncoggins@unca.edu" target="_top">ncoggins@unca.edu</a><br />KateLynn Pullen <a href="mailto:kpullen@unca.edu" target="_top">kpullen@unca.edu</a> <br>
+                <b>Date:</b> April 13, 2018 <br>
+            </figcaption>
+        </figure>
     </body>
 </html>
