@@ -297,29 +297,23 @@ function draw() {
             skySphere.rotation.y += plRoty;
             skySphere.rotation.z += plRotz;
 
-            // for (var i = 0; i < celestialObj; i++) {
-            //   pivot[i].rotation.x += planetMov[i].xMov;
-            //   pivot[i].rotation.y += planetMov[i].yMov;
-            //   pivot[i].rotation.z += planetMov[i].zMov;
-            //   pivot[i + celestialObj].rotation.x += planetMov[i].xMov;
-            //   pivot[i + celestialObj].rotation.y += planetMov[i].yMov;
-            //   pivot[i + celestialObj].rotation.z += planetMov[i].zMov;
-            //     //parent[i].rotation.dispose();
-            //     // parent[i].remove(pivot[i]);
-            //     // bgscene.remove(parent[i]);
-            //     // planetMov[i].xRot += planetMov[i].xMov;
-            //     // planetMov[i].yRot += planetMov[i].yMov;
-            //     // planetMov[i].zRot += planetMov[i].zMov;
-            //     // parent[i] = new THREE.Object3D();
-            //     // bgscene.add(parent[i]);
-            //     // pivot[i] = new THREE.Object3D();
-            //     // pivot[i].rotation.z = planetMov[i].xRot;
-            //     // pivot[i].rotation.y = planetMov[i].yRot;
-            //     // pivot[i].rotation.x = planetMov[i].zRot;
-            //     // parent[i].add(pivot[i]);
-            //     // pivot[i].add(sprite[i]);
-            //     // //console.log(planetMov[i].xMov);
-            // }
+            for (var i = 0; i < celestialObj; i++) {
+                parent[i].rotation.dispose();
+                parent[i].remove(pivot[i]);
+                bgscene.remove(parent[i]);
+                planetMov[i].xRot += planetMov[i].xMov;
+                planetMov[i].yRot += planetMov[i].yMov;
+                planetMov[i].zRot += planetMov[i].zMov;
+                parent[i] = new THREE.Object3D();
+                bgscene.add(parent[i]);
+                pivot[i] = new THREE.Object3D();
+                pivot[i].rotation.z = planetMov[i].xRot;
+                pivot[i].rotation.y = planetMov[i].yRot;
+                pivot[i].rotation.x = planetMov[i].zRot;
+                parent[i].add(pivot[i]);
+                pivot[i].add(sprite[i]);
+                //console.log(planetMov[i].xMov);
+            }
             render();
         }
     };
