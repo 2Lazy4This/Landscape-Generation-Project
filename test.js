@@ -8,6 +8,7 @@ var celestialObj = 5; //between 1 and 5, inclusive
 var renderer;
 var time;
 var atmosTheme;
+var seaTheme;
 
 
 function main() {
@@ -42,13 +43,14 @@ function initialize() {
     var cloudiness = document.getElementById("waterSkew").value;
     var atmosHue = document.getElementById("windDir").value;
 
-    atmosTheme = new THREE.Color("hsl( " + atmosHue + ", 10%, 50%)");
-    atmosLight = new THREE.Color("hsl( " + atmosHue + ", 10%, 75%)");
+    atmosTheme = new THREE.Color("hsl( " + atmosHue + ", 25%, 65%)");
+    atmosLight = new THREE.Color("hsl( " + atmosHue + ", 15%, 75%)");
+    seaTheme = new THREE.Color("hsl( " + Math.abs(atmosHue - 30 + 60 * Math.random()) + ", 15%, 25%)")
 
     time = timeofDay/100 * tau - Math.PI;
 
-    land = new Landscape(129, 1, 5 * landSkew/100 + 1, 0.4 * landscapeResolution/100 + 0.1);
-    sea = new Water(129, 0.1, waveHeight/1000, 0.4 * landscapeResolution/100 + 0.1, Math.PI / 2);
+    land = new Landscape(129, 0.1, 2 * landSkew/100 + 2.5, 0.4 * landscapeResolution/100 + 0.1);
+    sea = new Water(129, 0.1, waveHeight/2000, 0.4 * landscapeResolution/100 + 0.1, Math.PI / 2);
     weather = new Weather(cloudiness/100);
     textures = new GenTextures();
 
@@ -68,12 +70,9 @@ function draw() {
     var bgscene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(50, 1.0, 0.1, 1000);
 
-    var skySphereGeometry = new THREE.SphereGeometry(11, 20, 20);  //radius, width segments, height segments
+    var skySphereGeometry = new THREE.SphereGeometry(25, 20, 20);  //radius, width segments, height segments
     var skyMaterial = new THREE.MeshBasicMaterial({side: THREE.DoubleSide, map: textures.generateSky()});
     var skySphere = new THREE.Mesh(skySphereGeometry, skyMaterial);
-    skySphere.position.x = 0;
-    skySphere.position.y = 0;
-    skySphere.position.z = 0;
     bgscene.add(skySphere);
 
 
@@ -88,17 +87,18 @@ function draw() {
       skyVariable *= -1;
     }
     //turn off for night
-    var daySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
-    var dayMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.5 + 0.5 * skyVariable, depthWrite: false});
+    var daySphereGeometry = new THREE.SphereGeometry(24, 20, 20);  //radius, width segments, height segments
+    var dayMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.5 + 0.5 * skyVariable});
     var daySphere = new THREE.Mesh(daySphereGeometry, dayMaterial);
-    skySphere.position.x = 0;
-    skySphere.position.y = 0;
-    skySphere.position.z = 0;
     bgscene.add(daySphere);
 
-    var horizonGeometry = new THREE.SphereGeometry(5000,16,16, Math.PI/2, Math.PI*2, 0, Math.PI);
+    var horizonGeometry = new THREE.BoxGeometry(45, 6, 1, 100);
+    var horizonMaterial = new THREE.MeshBasicMaterial({color: seaTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.8});
+    var horizon = new THREE.Mesh(horizonGeometry, horizonMaterial);
+    horizon.position.y = -7.2;
+    horizon.position.z = -23;
+    scene.add(horizon);
 
-    
     var atmoSphereGeometry = new THREE.SphereGeometry(20, 20, 20);  //radius, width segments, height segments
     var atmoMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.2 * skyVariable, depthWrite: false});
     var atmoSphere = new THREE.Mesh(atmoSphereGeometry, atmoMaterial);
@@ -180,29 +180,23 @@ function draw() {
         flatShading: true,
     });
 
-    var diffuseColor = new THREE.Color(0.05, 0.20, 0.20);
-    var specularColor = new THREE.Color(1.0, 1.0, 1.0);
     var seaMaterial = new THREE.MeshToonMaterial({
-        color: diffuseColor,
-        specular: specularColor,
+        color: seaTheme,
+        specular: new THREE.Color(1.0, 1.0, 1.0),
         reflectivity: 1,
         shininess: 1,
         shadowSide: THREE.BackSide,
         transparent: true,
-        opacity: 0.68
+        opacity: 0.55
     });
 
     var seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
-    seaMesh.position.x = 0;
-    seaMesh.position.y = -3;
-    seaMesh.position.z = 0;
+    seaMesh.position.y = -3.5;
     seaMesh.rotation.x = Math.PI / 2;
     scene.add(seaMesh);
 
     var landMesh = new THREE.Mesh(landGeometry, landMaterial);
-    landMesh.position.x = 0;
-    landMesh.position.y = -2;
-    landMesh.position.z = 0;
+    landMesh.position.y = -2.5;
     landMesh.rotation.x = Math.PI / 2;
     scene.add(landMesh);
 
