@@ -39,27 +39,21 @@ and open the template in the editor.
                 <h2> Scene Values </h2>
                 <form>
                     Landscape Resolution <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="lwSize" oninput="this.form.amountInput.value=this.value" /> 100% </center>
-                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
                     Landscape Roughness <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="mapSize" oninput="this.form.amountInput.value=this.value" /> 100% </center>
-                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
-                    TODO Landscape Height <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="landHeight" oninput="this.form.amountInput.value=this.value" /> 100% </center>
-                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
+                    Time <center><input type="range" name="amountRange" min="0" max="100" value="1" class="slider" id="landHeight" oninput="this.form.amountInput.value=this.value" /></center>
                 </form>
                 <form>
                     Wave Height <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterHeight" oninput="this.form.amountInput.value=this.value" /> 100% </center>
-                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
                     Cloudiness <center> 0 <input type="range" name="amountRange" min="0" max="100" value="50" class="slider" id="waterSkew" oninput="this.form.amountInput.value=this.value" /> 100% </center>
-                    <input type="number" name="amountInput" min="0" max="100" value="50" oninput="this.form.amountRange.value=this.value" />%
                 </form>
                 <form>
-                    TODO Wind Direction <center> 0 <input type="range" name="amountRange" min="0" max="360" value="180" class="slider" id="windDir" oninput="this.form.amountInput.value=this.value" /> 360° </center>
-                    <input type="number" name="amountInput" min="0" max="360" value="180" oninput="this.form.amountRange.value=this.value" />°
+                    Atmosphere Hue <center><input type="range" name="amountRange" min="0" max="360" value="180" class="slider" id="windDir" oninput="this.form.amountInput.value=this.value" /></center>
                 </form>
                 <br>
                 <figcaption>
@@ -68,12 +62,15 @@ and open the template in the editor.
                     <b>Date:</b> April 13, 2018 <br>
                 </figcaption>
             </figure>
-            <canvas id="planetTexture1Canvas" width="512" height="512"> </canvas>
-            <canvas id="planetTexture2Canvas" width="512" height="512"> </canvas>
-            <canvas id="planetTexture3Canvas" width="512" height="512"> </canvas>
-            <canvas id="planetTexture4Canvas" width="512" height="512"> </canvas>
-            <canvas id="planetTexture5Canvas" width="512" height="512"> </canvas>
+          </div>
+          <h2> Textures Generated </h2>
+          <div class="wrapper">
             <canvas id="skyTextureCanvas" width="1024" height="1024"></canvas>
-        </div>
+            <canvas id="planetTexture1Canvas" class="planet" width="512" height="512"> </canvas>
+            <canvas id="planetTexture2Canvas" class="planet" width="512" height="512"> </canvas>
+            <canvas id="planetTexture3Canvas" class="planet" width="512" height="512"> </canvas>
+            <canvas id="planetTexture4Canvas" class="planet" width="512" height="512"> </canvas>
+            <canvas id="planetTexture5Canvas" class="planet" width="512" height="512"> </canvas>
+          </div>
     </body>
 </html>

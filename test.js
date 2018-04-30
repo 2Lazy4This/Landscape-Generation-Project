@@ -6,6 +6,8 @@ var tau = Math.PI * 2;
 var plRotx, plRoty, plRotz;
 var celestialObj = 5; //between 1 and 5, inclusive
 var renderer;
+var time;
+var atmosTheme;
 
 
 function main() {
@@ -35,12 +37,17 @@ function cycle() {
 function initialize() {
     var landscapeResolution = document.getElementById("lwSize").value;
     var landSkew = document.getElementById("mapSize").value;
-    var landHeight = document.getElementById("landHeight").value;
+    var timeofDay = document.getElementById("landHeight").value;
     var waveHeight = document.getElementById("waterHeight").value;
     var cloudiness = document.getElementById("waterSkew").value;
-    var windDir = document.getElementById("windDir").value;
+    var atmosHue = document.getElementById("windDir").value;
 
-    land = new Landscape(129, 1 * landHeight/100 + 0.5, 6 * landSkew/100 + 1, 0.4 * landscapeResolution/100 + 0.1);
+    atmosTheme = new THREE.Color("hsl( " + atmosHue + ", 10%, 50%)");
+    atmosLight = new THREE.Color("hsl( " + atmosHue + ", 10%, 75%)");
+
+    time = timeofDay/100 * tau - Math.PI;
+
+    land = new Landscape(129, 1, 6 * landSkew/100 + 1, 0.4 * landscapeResolution/100 + 0.1);
     sea = new Water(129, 0.1, waveHeight/1000, 0.4 * landscapeResolution/100 + 0.1, Math.PI / 2);
     weather = new Weather(cloudiness/100 * 0.3);
     textures = new GenTextures();
@@ -69,22 +76,32 @@ function draw() {
     skySphere.position.z = 0;
     bgscene.add(skySphere);
 
+    var skyVariable = Math.pow(Math.cos(time), 1/3);
+
     //turn off for night
-    // var daySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
-    // var dayMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, transparent: true, opacity: 1, depthWrite: false});
-    // var daySphere = new THREE.Mesh(daySphereGeometry, dayMaterial);
-    // skySphere.position.x = 0;
-    // skySphere.position.y = 0;
-    // skySphere.position.z = 0;
-    // bgscene.add(daySphere);
-    //
-    // var atmoSphereGeometry = new THREE.SphereGeometry(8, 20, 20);  //radius, width segments, height segments
-    // var atmoMaterial = new THREE.MeshBasicMaterial({color: 0x8888FF, side: THREE.DoubleSide, transparent: true, opacity: 0.7, depthWrite: false});
-    // var atmoSphere = new THREE.Mesh(atmoSphereGeometry, atmoMaterial);
-    // skySphere.position.x = 0;
-    // skySphere.position.y = 0;
-    // skySphere.position.z = 0;
-    // scene.add(atmoSphere);
+    var daySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
+    var dayMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.5 + 0.5 * skyVariable, depthWrite: false});
+    var daySphere = new THREE.Mesh(daySphereGeometry, dayMaterial);
+    skySphere.position.x = 0;
+    skySphere.position.y = 0;
+    skySphere.position.z = 0;
+    bgscene.add(daySphere);
+
+    var atmoSphereGeometry = new THREE.SphereGeometry(20, 20, 20);  //radius, width segments, height segments
+    var atmoMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.2 * skyVariable, depthWrite: false});
+    var atmoSphere = new THREE.Mesh(atmoSphereGeometry, atmoMaterial);
+
+    var atmoSphereGeometry1 = new THREE.SphereGeometry(17, 20, 20);
+    var atmoMaterial1 = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.125, depthWrite: false});
+    var atmoSphere1 = new THREE.Mesh(atmoSphereGeometry1, atmoMaterial1);
+
+    var atmoSphereGeometry2 = new THREE.SphereGeometry(14, 20, 20);
+    var atmoMaterial2 = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.05, depthWrite: false});
+    var atmoSphere2 = new THREE.Mesh(atmoSphereGeometry2, atmoMaterial2);
+
+    scene.add(atmoSphere);
+    scene.add(atmoSphere1);
+    scene.add(atmoSphere2);
 
     //generates & adds planets and random rotations for them
     var sprite = [];
@@ -133,13 +150,13 @@ function draw() {
         shadowSide: THREE.BackSide
     });
 
-    var diffuseColor = new THREE.Color(0.05, 0.25, 0.5);
+    var diffuseColor = new THREE.Color(0.05, 0.20, 0.20);
     var specularColor = new THREE.Color(1.0, 1.0, 1.0);
     var seaMaterial = new THREE.MeshPhongMaterial({
         color: diffuseColor,
         specular: specularColor,
-        reflectivity: 0.01,
-        shininess: 0.15,
+        reflectivity: 1,
+        shininess: 0.25,
         shadowSide: THREE.BackSide,
         transparent: true,
         opacity: 0.68
@@ -147,14 +164,14 @@ function draw() {
 
     var seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
     seaMesh.position.x = 0;
-    seaMesh.position.y = -2.7;
+    seaMesh.position.y = -3;
     seaMesh.position.z = 0;
     seaMesh.rotation.x = Math.PI / 2;
     scene.add(seaMesh);
 
     var landMesh = new THREE.Mesh(landGeometry, landMaterial);
     landMesh.position.x = 0;
-    landMesh.position.y = -1.4;
+    landMesh.position.y = -1.7;
     landMesh.position.z = 0;
     landMesh.rotation.x = Math.PI / 2;
     scene.add(landMesh);
@@ -165,17 +182,13 @@ function draw() {
 
     camera.position.z = 3;
 
-    scene.add(new THREE.AmbientLight(0x222222));
-    var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(-5, 100, 100).normalize();
+    scene.add(new THREE.AmbientLight(atmosTheme));
+    var directionalLight = new THREE.DirectionalLight(atmosLight, 1);
+    directionalLight.position.set(-20, 100, 100).normalize();
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 
     bgscene.add(new THREE.AmbientLight(0x222222));
-    var bgdirectionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    bgdirectionalLight.position.set(-5, 100, 100).normalize();
-    bgdirectionalLight.castShadow = true;
-    bgscene.add(bgdirectionalLight);
 
 //    var plantsIndex = 0;
 //    var plantObjectsIndex = 0;
@@ -239,9 +252,10 @@ function draw() {
             skySphere.rotation.z += plRotz;
             for (var i = 0; i < celestialObj; i++) {
                 //parent[i].rotation.dispose();
+                parent[i].remove(pivot[i]);
                 pivot[i].dispose();
-                parent[i].dispose;
                 bgscene.remove(parent[i]);
+                parent[i].dispose();
 
                 planetMov[i].xRot += planetMov[i].xMov;
                 planetMov[i].yRot += planetMov[i].yMov;

@@ -1,13 +1,21 @@
 .slider {
     -webkit-appearance: none;  /* Override default CSS styles */
 
-    width: 50%; /* Full-width */
+    width: 75%; /* Full-width */
     height: 25px; /* Specified height */
     background: blue; /* Grey background */
     outline: none; /* Remove outline */
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
     transition: opacity .2s;
+}
+
+#windDir {
+  background: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet,red);
+}
+
+#landHeight {
+  background: linear-gradient(to right, indigo, yellow, indigo);
 }
 
 .slider:hover {
@@ -24,7 +32,7 @@ form{
     display: block;
     background-color: whitesmoke;
     border-style: solid;
-    width: 700px;
+    width: 500px;
     margin-bottom: 5px;
     text-align: center;
 }
@@ -36,6 +44,39 @@ form{
     border-style: solid;
 
 }
+
+.planet {
+      border-width: 1px;
+      border-style: solid;
+      border-color: whitesmoke;
+      width: 200px;
+      height: 200px;
+}
+
+#skyTextureCanvas {
+      border-width: 1px;
+      border-style: solid;
+      border-color: whitesmoke;
+}
+
+.wrapper {
+    float: top;
+    height: 400px;
+    width: 1050px;
+    overflow:scroll;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.wrapper #skyTextureCanvas { position: absolute; top: 0; left: 0; }
+.wrapper #planetTexture1Canvas { position: absolute; top: 0; left: 0; }
+.wrapper #planetTexture2Canvas { position: absolute; top: 0; left: 206px }
+.wrapper #planetTexture3Canvas { position: absolute; top: 0; left: 412px; }
+.wrapper #planetTexture4Canvas { position: absolute; top: 0; left: 618px; }
+.wrapper #planetTexture5Canvas { position: absolute; top: 0; left: 824px; }
 
 button{
     display: block;
