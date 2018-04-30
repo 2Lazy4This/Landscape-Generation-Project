@@ -96,6 +96,9 @@ function draw() {
     skySphere.position.z = 0;
     bgscene.add(daySphere);
 
+    var horizonGeometry = new THREE.SphereGeometry(5000,16,16, Math.PI/2, Math.PI*2, 0, Math.PI);
+
+    
     var atmoSphereGeometry = new THREE.SphereGeometry(20, 20, 20);  //radius, width segments, height segments
     var atmoMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.2 * skyVariable, depthWrite: false});
     var atmoSphere = new THREE.Mesh(atmoSphereGeometry, atmoMaterial);

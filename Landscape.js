@@ -16,7 +16,6 @@ class Landscape {
 
 
   generate() {
-    //I love it when questions are asked in StackOverflow and the response is "You don't need to do this, do [x that doesn't work with your implementation] instead!".
     //1D array representation size 5
     //   0 1 2 3 4
     // 0 a b c d e
