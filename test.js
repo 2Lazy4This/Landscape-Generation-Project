@@ -36,10 +36,10 @@ function enterValues() {
 }
 
 function initialize() {
-    var landscapeResolution = document.getElementById("lwSize").value;
+    var landscapeResolution = 50;
     var landSkew = document.getElementById("mapSize").value;
     var timeofDay = document.getElementById("landHeight").value;
-    var waveHeight = document.getElementById("waterHeight").value;
+    var waveHeight = 50;
     var cloudiness = document.getElementById("waterSkew").value;
     var atmosHue = document.getElementById("windDir").value;
 
@@ -98,6 +98,18 @@ function draw() {
     horizon.position.y = -7.2;
     horizon.position.z = -23;
     scene.add(horizon);
+
+    // var seaDepthGeometry = new THREE.BoxGeometry(40, 5, 40);
+    // var seaDepthMaterial = new THREE.MeshBasicMaterial({color: seaTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.25, depthWrite: false});
+    // var seaDepth = new THREE.Mesh(seaDepthGeometry, seaDepthMaterial);
+    // seaDepth.position.y = -9;
+    // scene.add(seaDepth);
+    //
+    // var seaDepthGeometry1 = new THREE.BoxGeometry(40, 5, 40);
+    // var seaDepthMaterial1 = new THREE.MeshBasicMaterial({color: seaTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.5, depthWrite: false});
+    // var seaDepth1 = new THREE.Mesh(seaDepthGeometry1, seaDepthMaterial1);
+    // seaDepth.position.y = -9;
+    // scene.add(seaDepth1);
 
     var atmoSphereGeometry = new THREE.SphereGeometry(20, 20, 20);  //radius, width segments, height segments
     var atmoMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.2 * skyVariable, depthWrite: false});
@@ -169,12 +181,13 @@ function draw() {
     seaGeometry.faces = sea.getFaces;
     seaGeometry.computeFaceNormals();
 
+
     var diffuseColor = new THREE.Color(0.3, 0.25, 0.2);
     var specularColor = new THREE.Color(0.6, 0.5, 0.4);
     var landMaterial = new THREE.MeshToonMaterial({
         color: diffuseColor,
         specular: specularColor,
-        reflectivity: 0.15,
+        reflectivity: 0.95,
         shininess: 0.1,
         shadowSide: THREE.BackSide,
         flatShading: true,
@@ -283,26 +296,30 @@ function draw() {
             skySphere.rotation.x += plRotx;
             skySphere.rotation.y += plRoty;
             skySphere.rotation.z += plRotz;
-            for (var i = 0; i < celestialObj; i++) {
-                //parent[i].rotation.dispose();
-                parent[i].remove(pivot[i]);
-                pivot[i].dispose();
-                bgscene.remove(parent[i]);
-                parent[i].dispose();
 
-                planetMov[i].xRot += planetMov[i].xMov;
-                planetMov[i].yRot += planetMov[i].yMov;
-                planetMov[i].zRot += planetMov[i].zMov;
-                parent[i] = new THREE.Object3D();
-                bgscene.add(parent[i]);
-                pivot[i] = new THREE.Object3D();
-                pivot[i].rotation.z = planetMov[i].xRot;
-                pivot[i].rotation.y = planetMov[i].yRot;
-                pivot[i].rotation.x = planetMov[i].zRot;
-                parent[i].add(pivot[i]);
-                pivot[i].add(sprite[i]);
-                //console.log(planetMov[i].xMov);
-            }
+            // for (var i = 0; i < celestialObj; i++) {
+            //   pivot[i].rotation.x += planetMov[i].xMov;
+            //   pivot[i].rotation.y += planetMov[i].yMov;
+            //   pivot[i].rotation.z += planetMov[i].zMov;
+            //   pivot[i + celestialObj].rotation.x += planetMov[i].xMov;
+            //   pivot[i + celestialObj].rotation.y += planetMov[i].yMov;
+            //   pivot[i + celestialObj].rotation.z += planetMov[i].zMov;
+            //     //parent[i].rotation.dispose();
+            //     // parent[i].remove(pivot[i]);
+            //     // bgscene.remove(parent[i]);
+            //     // planetMov[i].xRot += planetMov[i].xMov;
+            //     // planetMov[i].yRot += planetMov[i].yMov;
+            //     // planetMov[i].zRot += planetMov[i].zMov;
+            //     // parent[i] = new THREE.Object3D();
+            //     // bgscene.add(parent[i]);
+            //     // pivot[i] = new THREE.Object3D();
+            //     // pivot[i].rotation.z = planetMov[i].xRot;
+            //     // pivot[i].rotation.y = planetMov[i].yRot;
+            //     // pivot[i].rotation.x = planetMov[i].zRot;
+            //     // parent[i].add(pivot[i]);
+            //     // pivot[i].add(sprite[i]);
+            //     // //console.log(planetMov[i].xMov);
+            // }
             render();
         }
     };
