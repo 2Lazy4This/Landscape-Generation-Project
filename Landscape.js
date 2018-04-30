@@ -148,7 +148,7 @@ class Landscape {
  rectAverage(edge1, edge2, depth) { //given two edges, returns the midpoint value +- some random skew
    var average = (this.array[edge1] + this.array[edge2])/2;
    //var nuskew = this.skew * Math.abs(edge1 - edge2)/(this.size * this.size * 3); Honestly makes really cool "strip mine" effects.
-   var nuskew = this.skew * (1/(depth * depth));
+   var nuskew = this.skew * (1/(Math.pow(depth, 1.5)));
    average = average + (Math.random() * nuskew) - nuskew/2;
    return average;
  }
@@ -156,7 +156,7 @@ class Landscape {
   diamondAverage(edge1, edge2, edge3, edge4, depth) { //given four edges, returns the midpoint value +- some random skew
     var average = (this.array[edge1] + this.array[edge2] + this.array[edge3] + this.array[edge4])/4;
     //var nuskew = this.skew * Math.abs(edge1 - edge2)/(this.size * this.size * 3); Honestly makes really cool "strip mine" effects.
-    var nuskew = this.skew * (1/(depth * depth));
+    var nuskew = this.skew * (1/(Math.pow(depth, 1.5)));
     average = average + (Math.random() * nuskew) - nuskew/2;
     return average;
   }

@@ -16,22 +16,22 @@ function main() {
   renderer.setSize(drawCanvas.width, drawCanvas.height);
   renderer.shadowMap.enabled = true;
   renderer.autoClear = false;
+  renderer.antialias = true;
   initialize();
   draw();
   //setInterval(cycle, 100);
 }
 
-function reload() {
+function randomize() {
+  renderer.renderLists.dispose();
   renderer.clear();
+  renderer.dispose();
   initialize();
   draw();
 }
 
-function cycle() {
-    sea.cycle(0.1, 0);
-    sea.maptoArray();
-    console.log("loop");
-    draw();
+function enterValues() {
+
 }
 
 function initialize() {
@@ -47,9 +47,9 @@ function initialize() {
 
     time = timeofDay/100 * tau - Math.PI;
 
-    land = new Landscape(129, 1, 6 * landSkew/100 + 1, 0.4 * landscapeResolution/100 + 0.1);
+    land = new Landscape(129, 1, 5 * landSkew/100 + 1, 0.4 * landscapeResolution/100 + 0.1);
     sea = new Water(129, 0.1, waveHeight/1000, 0.4 * landscapeResolution/100 + 0.1, Math.PI / 2);
-    weather = new Weather(cloudiness/100 * 0.3);
+    weather = new Weather(cloudiness/100);
     textures = new GenTextures();
 
     weather.generate();
@@ -76,8 +76,17 @@ function draw() {
     skySphere.position.z = 0;
     bgscene.add(skySphere);
 
-    var skyVariable = Math.pow(Math.cos(time), 1/3);
 
+    var costime = Math.cos(time);
+    var negative = false;
+    if (costime < 0) {
+      costime *= -1;
+      negative = true;
+    }
+    var skyVariable = Math.pow(costime, 1/3);
+    if (negative) {
+      skyVariable *= -1;
+    }
     //turn off for night
     var daySphereGeometry = new THREE.SphereGeometry(10, 20, 20);  //radius, width segments, height segments
     var dayMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.5 + 0.5 * skyVariable, depthWrite: false});
@@ -109,21 +118,35 @@ function draw() {
     var spriteMaterial = [];
     var parent = [];
     var planetMov = [];
+    var directionalL = [];
     for (var i = 0; i < celestialObj; i++) {
         parent[i] = new THREE.Object3D();
+        parent[i + celestialObj] = new THREE.Object3D();
         bgscene.add(parent[i]);
+        scene.add(parent[i + celestialObj]);
         pivot[i] = new THREE.Object3D();
+        pivot[i + celestialObj] = new THREE.Object3D();
         var tempx = Math.random() * tau;
         var tempy = Math.random() * tau;
         var tempz = Math.random() * tau;
         pivot[i].rotation.z = tempx;
         pivot[i].rotation.y = tempy;
         pivot[i].rotation.x = tempz;
+        pivot[i + celestialObj].rotation.z = tempx;
+        pivot[i + celestialObj].rotation.y = tempy;
+        pivot[i + celestialObj].rotation.x = tempz;
         parent[i].add(pivot[i]);
-        spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, Math.random() * 300, Math.random() * 55)});
+        parent[i + celestialObj].add(pivot[i + celestialObj]);
+        var col = Math.floor(Math.random() * 300);
+        var sat = Math.floor(Math.random() * 55);
+        spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, col, sat)});
         sprite[i] = new THREE.Sprite(spriteMaterial[i]);
         sprite[i].position.z = -9;
+        directionalL[i] = new THREE.DirectionalLight(new THREE.Color("hsl(" + col + ", " + sat + "%, 50%)"), 0.35);
+        directionalL[i].position.set(-10, 0, 0).normalize();
+        directionalL[i].castShadow = true;
         pivot[i].add(sprite[i]);
+        pivot[i + celestialObj].add(directionalL[i]);
         planetMov[i] = {xMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotx),
             yMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRoty),
             zMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotz),
@@ -143,20 +166,24 @@ function draw() {
     seaGeometry.faces = sea.getFaces;
     seaGeometry.computeFaceNormals();
 
-    var diffuseColor = new THREE.Color(0.6, 0.5, 0.4);
-    var landMaterial = new THREE.MeshLambertMaterial({
+    var diffuseColor = new THREE.Color(0.3, 0.25, 0.2);
+    var specularColor = new THREE.Color(0.6, 0.5, 0.4);
+    var landMaterial = new THREE.MeshToonMaterial({
         color: diffuseColor,
-        reflectivity: 0.001,
-        shadowSide: THREE.BackSide
+        specular: specularColor,
+        reflectivity: 0.15,
+        shininess: 0.1,
+        shadowSide: THREE.BackSide,
+        flatShading: true,
     });
 
     var diffuseColor = new THREE.Color(0.05, 0.20, 0.20);
     var specularColor = new THREE.Color(1.0, 1.0, 1.0);
-    var seaMaterial = new THREE.MeshPhongMaterial({
+    var seaMaterial = new THREE.MeshToonMaterial({
         color: diffuseColor,
         specular: specularColor,
         reflectivity: 1,
-        shininess: 0.25,
+        shininess: 1,
         shadowSide: THREE.BackSide,
         transparent: true,
         opacity: 0.68
@@ -171,7 +198,7 @@ function draw() {
 
     var landMesh = new THREE.Mesh(landGeometry, landMaterial);
     landMesh.position.x = 0;
-    landMesh.position.y = -1.7;
+    landMesh.position.y = -2;
     landMesh.position.z = 0;
     landMesh.rotation.x = Math.PI / 2;
     scene.add(landMesh);
@@ -183,10 +210,20 @@ function draw() {
     camera.position.z = 3;
 
     scene.add(new THREE.AmbientLight(atmosTheme));
-    var directionalLight = new THREE.DirectionalLight(atmosLight, 1);
-    directionalLight.position.set(-20, 100, 100).normalize();
+    var starParent = new THREE.Object3D();
+    var starPivot = new THREE.Object3D();
+    scene.add(starParent);
+    //if you add 2PI to them, you'll get back to where you started
+    //therefore, %time * 2PI plus starting position (0) should get you where you want to be
+    //timeofDay/100 * tau - Math.PI
+    starPivot.rotation.z = time;
+    starPivot.rotation.y = time;
+    starPivot.rotation.x = time;
+    starParent.add(starPivot);
+    var directionalLight = new THREE.DirectionalLight(atmosLight, 0.5 + 0.5 * skyVariable);
+    directionalLight.position.set(-45, 0, 0).normalize();
     directionalLight.castShadow = true;
-    scene.add(directionalLight);
+    starPivot.add(directionalLight);
 
     bgscene.add(new THREE.AmbientLight(0x222222));
 
@@ -230,7 +267,6 @@ function draw() {
 //    }
 
     var animate = function () {
-        console.log(paused);
         if (!paused) {
             // seaMesh.geometry.dispose();
             // scene.remove(seaMesh);
@@ -275,6 +311,7 @@ function draw() {
     };
 
     var render = function () {
+        renderer.renderLists.dispose();
         renderer.clear();
         requestAnimationFrame(render);
         renderer.render(bgscene, camera);
