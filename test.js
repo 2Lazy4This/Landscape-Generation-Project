@@ -20,6 +20,7 @@ function main() {
 }
 
 function reload() {
+  renderer.clear();
   initialize();
   draw();
 }
@@ -32,16 +33,16 @@ function cycle() {
 }
 
 function initialize() {
-    var lwSize = document.getElementById("lwSize").value;
-    var mapSize = document.getElementById("mapSize").value;
+    var landscapeResolution = document.getElementById("lwSize").value;
+    var landSkew = document.getElementById("mapSize").value;
     var landHeight = document.getElementById("landHeight").value;
-    var waterHeight = document.getElementById("waterHeight").value;
-    var waterSkew = document.getElementById("waterSkew").value;
+    var waveHeight = document.getElementById("waterHeight").value;
+    var cloudiness = document.getElementById("waterSkew").value;
     var windDir = document.getElementById("windDir").value;
 
-    land = new Landscape(65, 3, 1.25, 0.2);
-    sea = new Water(65, 0.1, 0.01, 0.2, Math.PI / 2);
-    weather = new Weather(0.1);
+    land = new Landscape(129, 1 * landHeight/100 + 0.5, 6 * landSkew/100 + 1, 0.4 * landscapeResolution/100 + 0.1);
+    sea = new Water(129, 0.1, waveHeight/1000, 0.4 * landscapeResolution/100 + 0.1, Math.PI / 2);
+    weather = new Weather(cloudiness/100 * 0.3);
     textures = new GenTextures();
 
     weather.generate();
@@ -126,10 +127,8 @@ function draw() {
     seaGeometry.computeFaceNormals();
 
     var diffuseColor = new THREE.Color(0.6, 0.5, 0.4);
-    var specularColor = new THREE.Color(1.0, 1.0, 1.0);
     var landMaterial = new THREE.MeshLambertMaterial({
         color: diffuseColor,
-        specular: specularColor,
         reflectivity: 0.001,
         shadowSide: THREE.BackSide
     });
@@ -143,19 +142,19 @@ function draw() {
         shininess: 0.15,
         shadowSide: THREE.BackSide,
         transparent: true,
-        opacity: 0.6
+        opacity: 0.68
     });
 
     var seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
     seaMesh.position.x = 0;
-    seaMesh.position.y = -2.3;
+    seaMesh.position.y = -2.7;
     seaMesh.position.z = 0;
     seaMesh.rotation.x = Math.PI / 2;
     scene.add(seaMesh);
 
     var landMesh = new THREE.Mesh(landGeometry, landMaterial);
     landMesh.position.x = 0;
-    landMesh.position.y = -1;
+    landMesh.position.y = -1.4;
     landMesh.position.z = 0;
     landMesh.rotation.x = Math.PI / 2;
     scene.add(landMesh);

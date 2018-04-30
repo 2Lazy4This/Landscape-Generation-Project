@@ -58,7 +58,7 @@ class GenTextures {
     this.planetContext[number].beginPath();
     this.planetContext[number].arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
     this.planetContext[number].lineWidth = 5;
-    this.planetContext[number].strokeStyle = "hsla(" + startColor + ", " + saturation + "%, 25%, 0.5)"
+    this.planetContext[number].strokeStyle = "hsla(" + startColor + ", " + saturation + "%, 46%, 0.5)"
     this.planetContext[number].stroke();
 
     var tex = new THREE.Texture(this.planetTextureCanvas[number])
