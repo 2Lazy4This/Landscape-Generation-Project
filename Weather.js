@@ -15,7 +15,7 @@ generate() {
 for (var i = 0; i < this.cloudAmount; i++) {
         //var cloudGeo = new THREE.SphereGeometry(0.25 * this.cloudSize + 0.75 * Math.random() * this.cloudSize, Math.floor(Math.random() * 3 + 3), Math.floor(Math.random() * 3 + 3));
         var shape = new THREE.Shape();
-        var cloudWidth = this.cloudSize*2* Math.random() + 0.25;
+        var cloudWidth = this.cloudSize * 2 * Math.random() + 0.5;
         var cloudHeight1 = this.cloudSize* Math.random() + 0.25;
         var cloudHeight2 = this.cloudSize* Math.random() + 0.25;
         shape.moveTo(0, 0);
