@@ -42,7 +42,7 @@ for (var i = 0; i < this.cloudAmount; i++) {
         };
         var cloudGeo = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
         var cloudMat = new THREE.MeshToonMaterial({
-                color: new THREE.Color(0.7, 0.7, 0.7),
+                color: new THREE.Color(0.5, 0.5, 0.5),
                 transparent: true,
                 opacity: 0.68,
                 side: THREE.DoubleSide,
