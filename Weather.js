@@ -1,3 +1,7 @@
+/*By: Nathan Coggins and KateLynn Pullen
+Last Modified 1 May 201
+Project URL: http://arden.cs.unca.edu/~ncoggins/CSCI346.Spring2018/FinalProject/*/
+
 class Weather {
 
 //I think this is going to return already-made meshes, for ease of movement of the objects?

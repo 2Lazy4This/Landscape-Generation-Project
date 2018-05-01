@@ -1,3 +1,7 @@
+/*By: Nathan Coggins and KateLynn Pullen
+Last Modified 1 May 201
+Project URL: http://arden.cs.unca.edu/~ncoggins/CSCI346.Spring2018/FinalProject/*/
+
 var land;
 var sea;
 var textures;
@@ -241,6 +245,7 @@ function draw() {
             skySphere.rotation.z += plRotz;
 
             for (var i = 0; i < celestialObj; i++) {
+                //Cleanup to avoid out of memory issues
                 parent[i].rotation.dispose();
                 parent[i].remove(pivot[i]);
                 bgscene.remove(parent[i]);
