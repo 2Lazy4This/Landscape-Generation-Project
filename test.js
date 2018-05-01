@@ -99,18 +99,6 @@ function draw() {
     horizon.position.z = -23;
     scene.add(horizon);
 
-    // var seaDepthGeometry = new THREE.BoxGeometry(40, 5, 40);
-    // var seaDepthMaterial = new THREE.MeshBasicMaterial({color: seaTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.25, depthWrite: false});
-    // var seaDepth = new THREE.Mesh(seaDepthGeometry, seaDepthMaterial);
-    // seaDepth.position.y = -9;
-    // scene.add(seaDepth);
-    //
-    // var seaDepthGeometry1 = new THREE.BoxGeometry(40, 5, 40);
-    // var seaDepthMaterial1 = new THREE.MeshBasicMaterial({color: seaTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.5, depthWrite: false});
-    // var seaDepth1 = new THREE.Mesh(seaDepthGeometry1, seaDepthMaterial1);
-    // seaDepth.position.y = -9;
-    // scene.add(seaDepth1);
-
     var atmoSphereGeometry = new THREE.SphereGeometry(20, 20, 20);  //radius, width segments, height segments
     var atmoMaterial = new THREE.MeshBasicMaterial({color: atmosTheme, side: THREE.DoubleSide, transparent: true, opacity: 0.2 * skyVariable, depthWrite: false});
     var atmoSphere = new THREE.Mesh(atmoSphereGeometry, atmoMaterial);
@@ -128,41 +116,47 @@ function draw() {
     scene.add(atmoSphere2);
 
     //generates & adds planets and random rotations for them
+    //begin arrays of objects required
     var sprite = [];
     var pivot = [];
     var spriteMaterial = [];
     var parent = [];
     var planetMov = [];
     var directionalL = [];
-    for (var i = 0; i < celestialObj; i++) {
-        parent[i] = new THREE.Object3D();
-        parent[i + celestialObj] = new THREE.Object3D();
-        bgscene.add(parent[i]);
-        scene.add(parent[i + celestialObj]);
+    //end arrays
+    for (var i = 0; i < celestialObj; i++) { //for every planet being rendered (5)
+        parent[i] = new THREE.Object3D(); //create parent
+        parent[i + celestialObj] = new THREE.Object3D(); //create parent for lighting effect that'll be in the foreground scene
+        bgscene.add(parent[i]); //add to background
+        scene.add(parent[i + celestialObj]); //add to foreground
+
         pivot[i] = new THREE.Object3D();
-        pivot[i + celestialObj] = new THREE.Object3D();
-        var tempx = Math.random() * tau;
+        pivot[i + celestialObj] = new THREE.Object3D(); //create the background/foreground pivots
+
+        var tempx = Math.random() * tau; //generate random rotations for random sky positions
         var tempy = Math.random() * tau;
         var tempz = Math.random() * tau;
-        pivot[i].rotation.z = tempx;
+        pivot[i].rotation.z = tempx;    //apply rotations to both pivots
         pivot[i].rotation.y = tempy;
         pivot[i].rotation.x = tempz;
         pivot[i + celestialObj].rotation.z = tempx;
         pivot[i + celestialObj].rotation.y = tempy;
-        pivot[i + celestialObj].rotation.x = tempz;
-        parent[i].add(pivot[i]);
+        pivot[i + celestialObj].rotation.x = tempz; //end application of rotations
+
+        parent[i].add(pivot[i]); //add pivot to parents, background and foreground
         parent[i + celestialObj].add(pivot[i + celestialObj]);
-        var col = Math.floor(Math.random() * 300);
-        var sat = Math.floor(Math.random() * 55);
-        spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, col, sat)});
-        sprite[i] = new THREE.Sprite(spriteMaterial[i]);
-        sprite[i].position.z = -9;
-        directionalL[i] = new THREE.DirectionalLight(new THREE.Color("hsl(" + col + ", " + sat + "%, 50%)"), 0.35);
-        directionalL[i].position.set(-10, 0, 0).normalize();
+
+        var col = Math.floor(Math.random() * 300); //generate color for moon/light
+        var sat = Math.floor(Math.random() * 55); //generate saturation
+        spriteMaterial[i] = new THREE.SpriteMaterial({map: textures.generatePlanet(i, col, sat)}); //create spriteMaterial with color/sat texture
+        sprite[i] = new THREE.Sprite(spriteMaterial[i]); //add material to sprite
+        sprite[i].position.z = -9; //set straight-line distance/radius
+        directionalL[i] = new THREE.DirectionalLight(new THREE.Color("hsl(" + col + ", " + sat + "%, 50%)"), 0.35); //create directional light with same color/sat
+        directionalL[i].position.set(-10, 0, 0).normalize(); //set slightly behind planet
         directionalL[i].castShadow = true;
-        pivot[i].add(sprite[i]);
-        pivot[i + celestialObj].add(directionalL[i]);
-        planetMov[i] = {xMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotx),
+        pivot[i].add(sprite[i]); //add sprite to background
+        pivot[i + celestialObj].add(directionalL[i]); //add directionalLight to foreground
+        planetMov[i] = {xMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotx), //create array that stores movement values for animation use
             yMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRoty),
             zMov: (Math.PI / 4000 * Math.random() - Math.PI / 8000 + plRotz),
             xRot: (tempx),
@@ -171,11 +165,13 @@ function draw() {
     }
     //end planet gen
 
+    //create landgeometry out of the faces generated by land.generate()
     var landGeometry = new THREE.Geometry();
     landGeometry.vertices = land.getVertices;
     landGeometry.faces = land.getFaces;
     landGeometry.computeFaceNormals();
 
+    //create seageometry out of the faces generaetd by sea.generate()
     var seaGeometry = new THREE.Geometry();
     seaGeometry.vertices = sea.getVertices;
     seaGeometry.faces = sea.getFaces;
@@ -205,16 +201,16 @@ function draw() {
 
     var seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
     seaMesh.position.y = -3.5;
-    seaMesh.rotation.x = Math.PI / 2;
+    seaMesh.rotation.x = Math.PI / 2; //rotate so that y is up
     scene.add(seaMesh);
 
     var landMesh = new THREE.Mesh(landGeometry, landMaterial);
     landMesh.position.y = -2.5;
-    landMesh.rotation.x = Math.PI / 2;
+    landMesh.rotation.x = Math.PI / 2; //rotate so that y is up
     scene.add(landMesh);
 
     for (var i = 0; i < weather.meshArray.length; i++) {
-        scene.add(weather.meshArray[i]);
+        scene.add(weather.meshArray[i]); //add all the clouds
     }
 
     camera.position.z = 3;
@@ -237,61 +233,8 @@ function draw() {
 
     bgscene.add(new THREE.AmbientLight(0x222222));
 
-//    var plantsIndex = 0;
-//    var plantObjectsIndex = 0;
-//    var plantsObjectFacesIndex = 0;
-//    var colorsIndex = 0;
-//
-//    var plantsLength = plants.length; //will be whatever array name is used
-//    var objectsLength = plantObjects.length; //will be whatever array name is used
-//    var facesLength = faces.length; //will be whatever array name is used
-//    var colorsLength = colors.length; //will be whatever array name is used
-//
-//
-////still needs the vertices to be added
-//
-////var vertices = new Float32Array( [
-////	-1.0, -1.0,  1.0,
-////	 1.0, -1.0,  1.0,
-////	 1.0,  1.0,  1.0,
-////
-////	 1.0,  1.0,  1.0,
-////	-1.0,  1.0,  1.0,
-////	-1.0, -1.0,  1.0
-////] );
-////
-////// itemSize = 3 because there are 3 values (components) per vertex
-////geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
-////
-//
-//    for (plantsIndex; plantsIndex < plantsLength; plantsIndex++) {
-//        for (plantObjectsIndex; plantObjectsIndex < objectsLength; plantObjectsIndex++) {
-//            var plantColor = new THREE.MeshBasicMaterial({color: colors[plantObjectsIndex]});
-//            plant = new Three.BufferGeometry();
-//            for (plantsObjectFacesIndex; plantsObjectFacesIndex < facesLength; plantsObjectFacesIndex++) {
-//                plant.faces.push(faces[plantsObjectFacesIndex]);
-//            }
-//            var plantObject = new THREE.Mesh(geometry, material);
-//            scene.add(plantObject);
-//        }
-//    }
-
     var animate = function () {
         if (!paused) {
-            // seaMesh.geometry.dispose();
-            // scene.remove(seaMesh);
-            // sea.cycle(0.1, 0);
-            // sea.maptoArray();
-            // seaGeometry = new THREE.Geometry();
-            // seaGeometry.vertices = sea.getVertices;
-            // seaGeometry.faces = sea.getFaces;
-            // seaGeometry.computeFaceNormals();
-            // seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
-            // seaMesh.position.x = 0;
-            // seaMesh.position.y = -0.5;
-            // seaMesh.position.z = 0;
-            // seaMesh.rotation.x = Math.PI / 1.8;
-            // scene.add(seaMesh);
 
             skySphere.rotation.x += plRotx;
             skySphere.rotation.y += plRoty;
@@ -323,7 +266,7 @@ function draw() {
         renderer.clear();
         requestAnimationFrame(render);
         renderer.render(bgscene, camera);
-        renderer.clearDepth(); // important! clear the depth buffer
+        renderer.clearDepth(); 
         renderer.render(scene, camera);
         setTimeout(animate, 200);
     };
